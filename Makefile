@@ -18,10 +18,9 @@ MPI_LIB=
 MPI_INC=
 OPTIMIZATION := -O3
 
-SRC=src/
-EXP=experimental/
+SRC=TP1/src/
 TESTDIR=test/
-BIN=bin/
+BIN=TP1/bin/
 
 ifeq ($(DEBUG),yes)
 		DEBUG_FLAGS=-DDEBUG -DPAPI_LOG_INFO=true -DPAPI_LOG_VERBOSE=true
@@ -89,13 +88,11 @@ ifeq ($(UNAME_S),Darwin)
 	MPI_INC=-I /opt/openmpi/include
 	INCLUDES=
 	OMP_FLAGS= -fopenmp
-#	CXXFLAGS= $(OPTIMIZATION) -std=c99 -g
 	CXXFLAGS= $(OPTIMIZATION) -std=c99 -g $(OMP_FLAGS) -v
 #	MPI_LIB=-L/opt/openmpi/lib -l
 endif
 #CXXFLAGS= -O3 -std=c++11 -mavx -pg -qopenmp -qopt-report5 $(INCLUDES)
 #
-PROGS=$(BIN)kmeans
 
 .PHONY: all
 all: $(BIN) noop
@@ -111,7 +108,7 @@ noop:
 
 
 $(BIN):
-	mkdir $(BIN)
+	mkdir -p $(BIN)
 
 .PHONY: clean
 clean:

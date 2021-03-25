@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="noop" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 10 --label test" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="noop" CONFIG_NAME="noop" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_noop">
+    <method v="2">
+      <option name="CLION.COMPOUND.BUILD" enabled="true" />
+    </method>
+  </configuration>
+</component>
