@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include "matrix_support.h"
+#include "log.h"
 
 /**
  * Calculate number of bytes in an integer matrix of rows x cols
@@ -118,9 +119,12 @@ void print_matrix(char *label, int rows, int cols, int *matrix)
  */
 void randperm(int rows, int cols, int *matrix)
 {
-    int size = matrix_size(rows, cols);
+    int size = rows * cols;
     // fill matrix with counting nubmers 1 - size of matrix + 1
-    for (int i = 0; i < size; i++) matrix[i] = i + 1;
+    for (int i = 0; i < size; i++) {
+        matrix[i] = i + 1;
+        DEBUG("Randperm: initializing matrix[%d] = %d", i, matrix[i]);
+    }
 
 // Random permutation the order
     for (int i = 0; i < size; i++) {
