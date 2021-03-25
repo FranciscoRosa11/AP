@@ -99,6 +99,11 @@ int valid_count(char opt, char *arg)
 
 void validate_config(struct config *config)
 {
+    // ensure even persons
+    if (config->num_persons % 2 != 0) {
+        FAIL("The number of persons must be even to divide between rooms");
+    }
+
     if (IS_DEBUG) {
         printf("Config:\n");
         printf("Metrics file       : %-10s\n", config->metrics_file);

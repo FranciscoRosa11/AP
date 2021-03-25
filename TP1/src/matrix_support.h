@@ -1,92 +1,65 @@
-//
-// simpler support methods with no arrays to allow compilation by nvcc
-//
+#ifndef MATRIX_SUPPORT_H
+#define MATRIX_SUPPORT_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
 
 /**
- * Calculate number of cells in a matrix of n x n
- * @param n size (square) of matrix
+ * Calculate number of bytes in an integer matrix of rows x cols
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
  */
-int matrix_size(int n) {
-    return n * n * sizeof(int);
-}
+extern int matrix_size(int rows, int cols);
 
 /**
  * Equivalent of matrix[i, j] for compilers that do not like indexes
  * @param matrix pointer to matrix array
  * @param i row index
  * @param j col index
- * @param n matrix size (square)
+ * @param cols number of cols in the matrix
  * @return value at matrix row i, column j
  */
-int *offset(int *matrix, int i, int j, int n) {
-    return matrix + (i * n) + j;
-}
+extern int *offset(int *matrix, int i, int j, int cols);
 
 /**
- * Allocate a new square matrix
- * @param n rows and columns in square matrix
+ * Allocate a new matrix
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
  * @return a pointer to the matrix
  */
-int *new_matrix(int n) {
-    int *matrix = (int *)malloc(matrix_size(n));
-    return matrix;
-}
+extern int *new_matrix(int rows, int cols);
 
 /**
- * Fill the given square matrix with a random value
+ * Fill the given matrix with a random integer that is >= rand_min and <= rand_max
  *
- * @param size number of rows (and columns) in the square matrix
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
  * @param matrix pre-allocated two dimensional array of ints for the matrix
+ * @param rand_min the minimum random number (inclusive)
+ * @param rand_max the maximum random number (inclusive)
  */
-void fill_matrix_random(int size, int *matrix)
-{
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            *offset(matrix, i, j, size) = ((int) rand()) / ((int) RAND_MAX);
-        }
-    }
-}
+extern void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_max);
 
-void write_matrix(FILE *out, char *label, char sep, size_t size, int *matrix)
-{
-    if (label != NULL) {
-        fprintf(out, "\nMatrix %s (%dx%d)\n", label, (int)size, (int)size);
-    }
-    for (int i = 0; i < size; ++i) {
-        if (i > 0) {
-            fprintf(out, "\n"); // break line between rows
-        }
-        for (int j = 0; j < size; ++j) {
-            if (sep > 0) {
-                // format for csv - no whitespace
-                if (j > 0) {
-                    fprintf(out, "%c%.3f", sep, *offset(matrix, i, j, size));
-                }
-                else {
-                    fprintf(out, "%.3f", *offset(matrix, i, j, size)); // first cell on row
-                }
-            }
-            else {
-                // format for neat alignment
-                fprintf(out, "%.3f  ", *offset(matrix, i, j, size));
-            }
-        }
-    }
-    fprintf(out, "\n");
-}
+
+extern void write_matrix(FILE *out, char *label, char sep, int rows, int cols, int *matrix);
+
 
 /**
  * Print the matrix of to stdout
  *
- * @param size number of rows (and columns) in the square matrix
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
  * @param matrix two dimensional array of ints for the matrix
  */
-void print_matrix(char *label, int size, int *matrix)
-{
-    write_matrix(stdout, label, -1, size, matrix);
-    printf("\n");
-}
+extern void print_matrix(char *label, int rows, int cols, int *matrix);
+
+/**
+ * Randomly permutes all counting numbers from 1 to size through the full size of the matrix
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
+ * @param matrix array to randomize
+ */
+extern void randperm(int rows, int cols, int *matrix);
+#endif

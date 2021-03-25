@@ -49,14 +49,20 @@ int main(int argc, char* argv [])
     config = new_config();
     parse_cli(argc, argv, config, &log_level);
     int n = config->num_persons;
+    int num_rooms = n / 2; // n guaranteed even by config.c validate_config
     struct metrics *metrics = new_metrics(config);
-    metrics->num_rooms = n / 2;
+    metrics->num_rooms = num_rooms;
 
-    DEBUG("Allocating matrix %zu x %zu", n, n);
-    int *cost_matrix = new_matrix(n);
+    INFO("Allocating cost matrix %zu x %zu", n, n);
+    int *cost_matrix = new_matrix(n, n); // square
 
     INFO("Generating random data for cost matrix");
-    fill_matrix_random(n, cost_matrix);
+    fill_matrix_random(n, n, cost_matrix, 1, 10);
+
+    INFO("Allocating rooms array with 2 people per room %zu x %zu", num_rooms, 2);
+    int *rooms_array = new_matrix(num_rooms, 2);
+    INFO("Randomizing room allocation of persons");
+    randperm(num_rooms, 2, rooms_array);
 
     struct timing *timing = new_timing();
 
@@ -64,7 +70,7 @@ int main(int argc, char* argv [])
     start_main_timing(timing);
 
     // run the main implementation
-    run_rooms(cost_matrix, config->num_persons, config->num_processes);
+    run_rooms(cost_matrix, n, rooms_array, num_rooms, config->num_processes);
 
     // stop the clock
     end_main_timing(timing);
@@ -73,6 +79,8 @@ int main(int argc, char* argv [])
     finalize_rooms();
     main_finalize(metrics, timing);
     free(config);
+    free(rooms_array);
+    free(cost_matrix);
     return 0;
 }
 

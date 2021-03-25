@@ -101,7 +101,7 @@ PROGS=$(BIN)kmeans
 all: $(BIN) noop
 
 noop:
-	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_noop $(SRC)rooms_main.c $(SRC)config.c \
+	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_noop $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
 										   $(SRC)rooms_noop_impl.c $(HEADERS) $(LIBS)
 #
 #montecarlo:
