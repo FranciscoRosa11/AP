@@ -1,8 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "matrix_support.h"
+#include "config.h"
 #include "rooms.h"
+#include "matrix_support.h"
+#include "rooms_support.h"
+#include "math.h"
 
 void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_rooms, int num_processes) {
     
@@ -12,20 +15,11 @@ void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_room
 
     int n = num_persons * num_persons; //equivalent of n = length(cost_matrix)
 
-    randperm(num_persons/2, num_persons/2, &rooms_array);
-
     /*
         Compute the value of cost for the initial distribution
     */
 
-    int cost = 0;
-    int i = 0;
-    for(i = 0; i <= num_persons/2; i++) {
-        int indexRoom1 = offset(&rooms_array, i, 1, 2);
-        int indexRoom2 = offset(&rooms_array, i, 2, 2);
-
-        cost = cost + offset(&cost_matrix, indexRoom1, indexRoom2, num_persons/2);
-    } 
+    compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
 
     /*
         Initialize algorithm
@@ -36,27 +30,24 @@ void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_room
 
     while(i < 100) {
         steps = steps + 1;
-        int c = rand() % (num_persons/2) + 1;
+        int c = random_count(num_rooms) - 1;
         int d;
 
-        if(c == (num_persons/2))
-            d = 1;
-        else
-            d = c + 1;
+        d = next_room(c, num_rooms);
 
         int delta;
 
         /*
             Compute the values of room(c1,1), room(c1,2) etc etc
         */
-        int roomC1 = offset(&rooms_array, c, 1, 2);
-        int roomC2 = offset(&rooms_array, c, 2, 2);
-        int roomD1 = offset(&rooms_array, d, 1, 2);
-        int roomD2 = offset(&rooms_array, d, 2, 2);
-        int costC1D2 = offset(&cost_matrix, roomC1, roomD2, num_persons);
-        int costD1C2 = offset(&cost_matrix, roomD1, roomC2, num_persons);
-        int costC1C2 = offset(&cost_matrix, roomC1, roomC2, num_persons);
-        int costD1D2 = offset(&cost_matrix, roomD1, roomD2, num_persons);
+        int roomC1 = first_occupant(rooms_array, c);
+        int roomC2 = second_occupant(rooms_array, c);
+        int roomD1 = first_occupant(rooms_array, d);
+        int roomD2 = second_occupant(rooms_array, d);
+        int costC1D2 = *offset(cost_matrix, roomC1, roomD2, num_persons);
+        int costD1C2 = *offset(cost_matrix, roomD1, roomC2, num_persons);
+        int costC1C2 = *offset(cost_matrix, roomC1, roomC2, num_persons);
+        int costD1D2 = *offset(cost_matrix, roomD1, roomD2, num_persons);
 
         delta = costC1D2 + costD1C2 - costC1C2 - costD1D2;
 
@@ -68,8 +59,12 @@ void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_room
 
             cost = cost + delta;
             i = 0;
+            DEBUG("Delta = %d:  swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
         } else {
             i = i+1;
         }
     }
+
+    metrics->steps = steps;
+    metrics->cost = cost;
 }
