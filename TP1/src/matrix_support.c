@@ -42,7 +42,7 @@ int *new_matrix(int rows, int cols) {
 }
 
 /**
- * Fill the given matrix with a random integer that is >= rand_min and <= rand_max
+ * Fill the given matrix with a random integer that is >= rand_min and <= rand_max and make sure the matrix is symmetric
  *
  * @param rows number of rows in the matrix
  * @param cols number of columns in the matrix
@@ -54,9 +54,10 @@ void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_
 {
     int range = rand_max - rand_min + 1;
     for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
+        for (int j = i; j < cols; ++j) {
             int random_number = (rand() % range) + rand_min;
             *offset(matrix, i, j, cols) = random_number;
+            *offset(matrix, j, i, cols) = random_number;
         }
     }
 }

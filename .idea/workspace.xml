@@ -5,8 +5,9 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="proj1_rooms" targetName="all" />
-      <config projectName="proj1_rooms" targetName="noop" />
+      <config projectName="AP" targetName="all" />
+      <config projectName="AP" targetName="rooms_mc" />
+      <config projectName="AP" targetName="noop" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -17,13 +18,8 @@
   <component name="ChangeListManager">
     <list default="true" id="16d2eaea-b6d6-4b30-9de8-49a291d3573a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/matrix_support.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/matrix_support.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/matrix_support.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/matrix_support.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/roomsSA.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/roomsSA.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_support.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_support.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +33,9 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -52,24 +51,19 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="proj1_rooms" />
+              <option name="name" value="AP" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="proj1_rooms" />
+                <option name="name" value="AP" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
             </list>
           </value>
         </entry>
-      </map>
-    </option>
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
       </map>
     </option>
   </component>
@@ -103,17 +97,22 @@
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1">
+    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="all" CONFIG_NAME="all" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="rooms_mc quiet" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --warn" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_mc">
+    <configuration name="rooms_mc quiet" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --warn" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_mc">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="rooms_sa" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --debug" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_sa">
+    <configuration name="rooms_mc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="rooms_mc" CONFIG_NAME="rooms_mc" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rooms_sa" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --debug" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_sa">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -128,6 +127,7 @@
       <item itemvalue="Makefile Application.noop" />
       <item itemvalue="Makefile Application.rooms_sa" />
       <item itemvalue="Makefile Application.rooms_mc quiet" />
+      <item itemvalue="Makefile Application.rooms_mc" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -200,11 +200,6 @@
           <url>file://$PROJECT_DIR$/TP1/src/rooms_main.c</url>
           <line>65</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/TP1/src/roomsSA.c</url>
-          <line>53</line>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
