@@ -40,6 +40,11 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         int costD1D2 = *offset(cost_matrix, roomD1, roomD2, num_persons);
 
         delta = costC1D2 + costD1C2 - costC1C2 - costD1D2;
+        DEBUG("room (%d)=[%d, %d]  cost=%d", c, roomC1, roomC2, costC1C2);
+        DEBUG("next (%d)=[%d, %d]  cost=%d", d, roomD1, roomD2, costD1D2);
+        DEBUG("swapC(%d)=[%d, %d]  cost=%d", c, roomC1, roomD2, costC1D2);
+        DEBUG("swapD(%d)=[%d, %d]  cost=%d", d, roomD1, roomC2, costD1C2);
+        DEBUG("delta %d = %d + %d - %d - %d", delta, costC1D2, costD1C2, costC1C2, costD1D2);
 
         // if the swap is an improvement ( delta < 0 ) or if the delta
         // is small enough such that e^-(delta/T) > some random number between 0 and 1,
@@ -47,7 +52,8 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         float delta_on_T = (float)delta / T;
         float exp_minus_delta_on_T = expf(-1.f * delta_on_T);
         float threshold = random_float();
-        DEBUG("T=%f.3  delta/T=%f.3  exp=%f.3, threshold=%f.3", T, delta_on_T, exp_minus_delta_on_T, threshold);
+        DEBUG("delta=%d   T=%f.3  delta/T=%f.3  exp=%f.3, threshold=%f.3,  cost=%d",
+              delta, T, delta_on_T, exp_minus_delta_on_T, threshold, cost);
         if (delta < 0 || exp_minus_delta_on_T > threshold) {
             //swap room(c1,1) and room(d1,1)
             int temp = rooms_array[roomC1];
