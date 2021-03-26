@@ -52,14 +52,9 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         float delta_on_T = (float)delta / T;
         float exp_minus_delta_on_T = expf(-1.f * delta_on_T);
         float threshold = random_float();
-<<<<<<< HEAD
-        DEBUG("T=%f.3  delta/T=%f.3  exp=%f.3, threshold=%f.3", T, delta_on_T, exp_minus_delta_on_T, threshold);
-        if (delta < 0 || exp_minus_delta_on_T >= threshold) {
-=======
-        DEBUG("delta=%d   T=%f.3  delta/T=%f.3  exp=%f.3, threshold=%f.3,  cost=%d",
+        DEBUG("delta=%d   T=%f  delta/T=%f  exp=%f, threshold=%f,  cost=%d",
               delta, T, delta_on_T, exp_minus_delta_on_T, threshold, cost);
         if (delta < 0 || exp_minus_delta_on_T > threshold) {
->>>>>>> 0163814ae8f5839bfae9c5d42df4282709c1bc26
             //swap room(c1,1) and room(d1,1)
             int temp = rooms_array[roomC1];
             rooms_array[roomC1] = rooms_array[roomD1];

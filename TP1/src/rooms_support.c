@@ -67,12 +67,12 @@ int next_room(int room_number, int num_rooms)
 
 int first_occupant(int* rooms_array, int room_number)
 {
-    return *offset(rooms_array, room_number, 1, 2);
+    return *offset(rooms_array, room_number, 0, 2);
 }
 
 int second_occupant(int* rooms_array, int room_number)
 {
-    return *offset(rooms_array, room_number, 2, 2);
+    return *offset(rooms_array, room_number, 1, 2);
 }
 
 /**
@@ -90,9 +90,10 @@ int compatibility_cost(int* cost_matrix, int num_persons, int* rooms_array, int 
 {
     int cost = 0;
     for (int i = 0; i < num_rooms; i++) {
-        int indexroom1 = *offset(rooms_array, i, 1, 2); // person 1 index in room i
-        int indexroom2 = *offset(rooms_array, i, 2, 2); // person 2 index in room i
-        cost = cost + *offset(cost_matrix, indexroom1, indexroom2, num_persons);
+        int first = first_occupant(rooms_array, i); // person 1 index in room i
+        int second = second_occupant(rooms_array, i); // person 2 index in room i
+        WARN("room=%d  first=%d, second=%d", i, first, second);
+        cost = cost + *offset(cost_matrix, first, second, num_persons);
     }
     return cost;
 }

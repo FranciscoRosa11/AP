@@ -61,14 +61,16 @@ int main(int argc, char* argv [])
         print_matrix("DEBUG Cost Matrix", n, n, cost_matrix);
     }
 
-
     INFO("Allocating rooms array with 2 people per room %zu x %zu", num_rooms, 2);
     int *rooms_array = new_matrix(num_rooms, 2);
-    
+
     // main loop
     for (int i = 0; i < config->num_processes; i++) {
         INFO("Randomizing room allocation of persons");
         randperm(num_rooms, 2, rooms_array);
+        if (log_level <= debug) {
+            print_matrix("DEBUG Initial Rooms Array", num_rooms, 2, rooms_array);
+        }
 
         struct timing *timing = new_timing();
 
@@ -84,9 +86,9 @@ int main(int argc, char* argv [])
         // allow the implementation to clean up
         update_metrics(metrics, timing);
     }
-    free(config);
-    free(rooms_array);
-    free(cost_matrix);
+//    free(config);
+//    free(rooms_array);
+//    free(cost_matrix);
     return 0;
 }
 
