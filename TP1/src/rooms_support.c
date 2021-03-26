@@ -39,10 +39,9 @@ void randperm(int rows, int cols, int *array)
     // fill matrix with counting numbers 1 - size of matrix + 1
     for (int i = 0; i < size; i++) {
         array[i] = i + 1;
-        DEBUG("Randperm: initializing matrix[%d] = %d", i, array[i]);
     }
 
-// Random permutation the order
+    // Randomly permute
     for (int i = 0; i < size; i++) {
         int j, t;
         j = rand() % (size-i) + i;

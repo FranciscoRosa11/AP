@@ -1,6 +1,4 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include "config.h"
 #include "rooms.h"
 #include "matrix_support.h"
@@ -22,6 +20,8 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
     // loop until there are 100 iterations without a swap
     while(i < 100) {
         steps = steps + 1;
+
+        DEBUG("Starting step %d. Steps without swap: %d", steps, i);
         int c = random_count(num_rooms) - 1; // index of random room
         int d = next_room(c, num_rooms); // index of the next room
 
@@ -44,7 +44,11 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         // if the swap is an improvement ( delta < 0 ) or if the delta
         // is small enough such that e^-(delta/T) > some random number between 0 and 1,
         // then swap
-        if (delta < 0 || expf(-1.f * ((float)delta) / T) > random_float()) {
+        float delta_on_T = (float)delta / T;
+        float exp_minus_delta_on_T = expf(-1.f * delta_on_T);
+        float threshold = random_float();
+        DEBUG("T=%f.3  delta/T=%f.3  exp=%f.3, threshold=%f.3", T, delta_on_T, exp_minus_delta_on_T, threshold);
+        if (delta < 0 || exp_minus_delta_on_T > threshold) {
             //swap room(c1,1) and room(d1,1)
             int temp = rooms_array[roomC1];
             rooms_array[roomC1] = rooms_array[roomD1];

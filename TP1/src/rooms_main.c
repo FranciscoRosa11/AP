@@ -7,7 +7,6 @@
 struct config *config;
 enum log_level_t log_level;
 
-
 void start_main_timing(struct timing *timing)
 {
     double now = omp_get_wtime();
@@ -57,6 +56,11 @@ int main(int argc, char* argv [])
 
     INFO("Generating random data for cost matrix");
     fill_matrix_random(n, n, cost_matrix, 1, 10);
+//    fill_matrix_constant(n, n, cost_matrix, 0);
+    if (log_level <= debug) {
+        print_matrix("DEBUG Cost Matrix", n, n, cost_matrix);
+    }
+
 
     INFO("Allocating rooms array with 2 people per room %zu x %zu", num_rooms, 2);
     int *rooms_array = new_matrix(num_rooms, 2);

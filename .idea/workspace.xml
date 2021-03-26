@@ -16,19 +16,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16d2eaea-b6d6-4b30-9de8-49a291d3573a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/TP1/src/rooms_support.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TP1/src/rooms_support.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/config.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/config.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/config.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/matrix_support.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/matrix_support.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/matrix_support.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/matrix_support.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/rooms.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/roomsSA.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/roomsSA.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/rooms_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_noop_impl.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_noop_impl.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_support.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_support.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +37,14 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MakefileLocalSettings">
     <option name="availableProjects">
@@ -105,6 +108,11 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
+    <configuration name="rooms_mc quiet" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --warn" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_mc">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="rooms_sa" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --debug" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_sa">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -119,6 +127,7 @@
       <item itemvalue="Makefile Application.all" />
       <item itemvalue="Makefile Application.noop" />
       <item itemvalue="Makefile Application.rooms_sa" />
+      <item itemvalue="Makefile Application.rooms_mc quiet" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -129,7 +138,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1616697171896</updated>
-      <workItem from="1616697175017" duration="12496000" />
+      <workItem from="1616697175017" duration="14167000" />
     </task>
     <task id="LOCAL-00001" summary="Moved makefile and checked in CLION project">
       <created>1616697758102</created>
@@ -152,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616706480084</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed the roomSA implementation&#10;Added the loop over processes to the main function&#10;Changed the metrics object to add steps and cost to pass to implementations">
+      <created>1616793641099</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1616793641099</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -169,7 +185,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Moved makefile and checked in CLION project" />
     <MESSAGE value="Added batch runner scripts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added batch runner scripts" />
+    <MESSAGE value="Fixed the roomSA implementation&#10;Added the loop over processes to the main function&#10;Changed the metrics object to add steps and cost to pass to implementations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed the roomSA implementation&#10;Added the loop over processes to the main function&#10;Changed the metrics object to add steps and cost to pass to implementations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -178,6 +195,16 @@
           <url>file://$PROJECT_DIR$/TP1/src/rooms_noop_impl.c</url>
           <line>11</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/TP1/src/rooms_main.c</url>
+          <line>65</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/TP1/src/roomsSA.c</url>
+          <line>53</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

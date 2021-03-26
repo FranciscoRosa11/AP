@@ -62,6 +62,22 @@ void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_
 }
 
 /**
+ * Fill the given matrix with a constant integer
+ *
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
+ * @param matrix pre-allocated two dimensional array of ints for the matrix
+ */
+void fill_matrix_constant(int rows, int cols, int *matrix, int constant)
+{
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            *offset(matrix, i, j, cols) = constant;
+        }
+    }
+}
+
+/**
  * Write the matrix out to the specified file pointer
  * @param out output file (or stream)
  * @param label heading for the table

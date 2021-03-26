@@ -42,6 +42,8 @@ extern int *new_matrix(int rows, int cols);
  */
 extern void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_max);
 
+extern void fill_matrix_constant(int rows, int cols, int *matrix, int constant);
+
 
 extern void write_matrix(FILE *out, char *label, char sep, int rows, int cols, int *matrix);
 
