@@ -2,9 +2,8 @@
 #include "rooms.h"
 #include "log.h"
 #include "matrix_support.h"
+#include "rooms_support.h"
 
-static char* headers[3];
-static int dimensions;
 struct config *config;
 enum log_level_t log_level;
 
@@ -22,7 +21,7 @@ void end_main_timing(struct timing *timing)
     timing->elapsed_total_seconds = now - timing->main_start_time;
 }
 
-void main_finalize(struct metrics *metrics, struct timing *timing)
+void update_metrics(struct metrics *metrics, struct timing *timing)
 {
     // update timings on metrics
     metrics->total_seconds = timing->elapsed_total_seconds;
@@ -61,23 +60,26 @@ int main(int argc, char* argv [])
 
     INFO("Allocating rooms array with 2 people per room %zu x %zu", num_rooms, 2);
     int *rooms_array = new_matrix(num_rooms, 2);
-    INFO("Randomizing room allocation of persons");
-    randperm(num_rooms, 2, rooms_array);
+    
+    // main loop
+    for (int i = 0; i < config->num_processes; i++) {
+        INFO("Randomizing room allocation of persons");
+        randperm(num_rooms, 2, rooms_array);
 
-    struct timing *timing = new_timing();
+        struct timing *timing = new_timing();
 
-    // start the clock
-    start_main_timing(timing);
+        // start the clock
+        start_main_timing(timing);
 
-    // run the main implementation
-    run_rooms(cost_matrix, n, rooms_array, num_rooms, config->num_processes);
+        // run the main implementation
+        run_rooms(cost_matrix, n, rooms_array, num_rooms, metrics);
 
-    // stop the clock
-    end_main_timing(timing);
+        // stop the clock
+        end_main_timing(timing);
 
-    // allow the implementation to clean up
-    finalize_rooms();
-    main_finalize(metrics, timing);
+        // allow the implementation to clean up
+        update_metrics(metrics, timing);
+    }
     free(config);
     free(rooms_array);
     free(cost_matrix);

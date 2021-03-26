@@ -110,26 +110,3 @@ void print_matrix(char *label, int rows, int cols, int *matrix)
     write_matrix(stdout, label, -1, rows, cols, matrix);
     printf("\n");
 }
-
-/**
- * Randomly permutes all counting numbers from 1 to size through the full size of the matrix
- * @param rows number of rows in the matrix
- * @param cols number of columns in the matrix
- * @param matrix
- */
-void randperm(int rows, int cols, int *matrix)
-{
-    int size = rows * cols;
-    // fill matrix with counting nubmers 1 - size of matrix + 1
-    for (int i = 0; i < size; i++) {
-        matrix[i] = i + 1;
-        DEBUG("Randperm: initializing matrix[%d] = %d", i, matrix[i]);
-    }
-
-// Random permutation the order
-    for (int i = 0; i < size; i++) {
-        int j, t;
-        j = rand() % (size-i) + i;
-        t = matrix[j]; matrix[j] = matrix[i]; matrix[i] = t; // Swap i and j
-    }
-}

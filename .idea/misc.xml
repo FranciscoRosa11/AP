@@ -20,4 +20,9 @@
     </option>
   </component>
   <component name="MakefileWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/TP1/references/rooms.m" />
+    <file url="file://$PROJECT_DIR$/TP1/references/roomsMAIN.m" />
+    <file url="file://$PROJECT_DIR$/TP1/references/roomsSA.m" />
+  </component>
 </project>

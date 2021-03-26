@@ -54,12 +54,4 @@ extern void write_matrix(FILE *out, char *label, char sep, int rows, int cols, i
  * @param matrix two dimensional array of ints for the matrix
  */
 extern void print_matrix(char *label, int rows, int cols, int *matrix);
-
-/**
- * Randomly permutes all counting numbers from 1 to size through the full size of the matrix
- * @param rows number of rows in the matrix
- * @param cols number of columns in the matrix
- * @param matrix array to randomize
- */
-extern void randperm(int rows, int cols, int *matrix);
 #endif

@@ -16,12 +16,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16d2eaea-b6d6-4b30-9de8-49a291d3573a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TP1/scripts/batch_env_main.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TP1/scripts/batch_run.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TP1/src/rooms_support.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TP1/src/rooms_support.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/config.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/config.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/matrix_support.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/matrix_support.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/matrix_support.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/matrix_support.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/rooms.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/roomsSA.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/roomsSA.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_noop_impl.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_noop_impl.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +70,9 @@
       </map>
     </option>
   </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="$PROJECT_DIR$/TP1/src/rooms_main.c" />
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -75,21 +85,27 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/TP1/scripts" />
-    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/TP1/src" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/TP1/src" />
       <recent name="$PROJECT_DIR$/TP1/scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Application.noop">
+  <component name="RunManager" selected="Makefile Application.rooms_sa">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rooms_sa" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --label test --debug" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="proj1_rooms" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_sa">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -102,6 +118,7 @@
     <list>
       <item itemvalue="Makefile Application.all" />
       <item itemvalue="Makefile Application.noop" />
+      <item itemvalue="Makefile Application.rooms_sa" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -112,7 +129,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1616697171896</updated>
-      <workItem from="1616697175017" duration="3409000" />
+      <workItem from="1616697175017" duration="12496000" />
     </task>
     <task id="LOCAL-00001" summary="Moved makefile and checked in CLION project">
       <created>1616697758102</created>
@@ -128,12 +145,42 @@
       <option name="project" value="LOCAL" />
       <updated>1616697794191</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added batch runner scripts">
+      <created>1616706480083</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1616706480084</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Moved makefile and checked in CLION project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved makefile and checked in CLION project" />
+    <MESSAGE value="Added batch runner scripts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added batch runner scripts" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/TP1/src/rooms_noop_impl.c</url>
+          <line>11</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

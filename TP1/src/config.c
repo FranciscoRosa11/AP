@@ -12,7 +12,6 @@ extern struct config *config;
 /**
  * Initialize a new config to hold the run configuration set from the command line
  */
-
 struct config *new_config()
 {
     struct config *new_config = (struct config *)malloc(sizeof(struct config));
@@ -34,6 +33,8 @@ struct metrics *new_metrics(struct config *config)
     new_metrics->num_persons = config->num_persons;
     new_metrics->num_processes = config->num_processes;
     new_metrics->total_seconds = 0;
+    new_metrics->steps = 0;
+    new_metrics->cost = 0;
     return new_metrics;
 }
 
@@ -49,17 +50,6 @@ struct timing *new_timing()
     return new_timing;
 }
 
-void log_usage()
-{
-    fprintf(stderr, "Output logging options:\n");
-    fprintf(stderr, "    -q --quiet fewer output messages\n");
-    fprintf(stderr, "    -z --silent no output messages only the result for metrics\n");
-    fprintf(stderr, "    -v --verbose lots of output messages including full matrices for debugging\n");
-    fprintf(stderr, "    -d --debug debug messages (includes verbose)\n");
-    fprintf(stderr, "    -h print this help and exit\n");
-    fprintf(stderr, "\n");
-}
-
 void usage()
 {
     fprintf(stderr, "Usage: rooms_<program> [options]\n");
@@ -73,7 +63,6 @@ void usage()
     fprintf(stderr, "    --error to suppress all error messages\n");
     fprintf(stderr, "    --debug for debug level messages\n");
     fprintf(stderr, "    --trace for very fine grained debug messages\n");
-    log_usage();
     fprintf(stderr, "\n");
     exit(1);
 }
@@ -185,7 +174,7 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
  */
 void print_metrics_headers(FILE *out)
 {
-    fprintf(out, "label,total_seconds,num_persons,num_processes\n");
+    fprintf(out, "label,total_seconds,num_persons,num_processes,steps_used,final_cost\n");
 }
 
 /**
@@ -195,9 +184,10 @@ void print_metrics_headers(FILE *out)
  */
 void print_metrics(FILE *out, struct metrics *metrics)
 {
-    fprintf(out, "%s,%f,%d,%d\n",
+    fprintf(out, "%s,%f,%d,%d,%d,%d\n",
             metrics->label, metrics->total_seconds,
-            metrics->num_persons, metrics->num_processes);
+            metrics->num_persons, metrics->num_processes,
+            metrics->steps, metrics->cost);
 }
 
 /**
@@ -211,9 +201,12 @@ void summarize_metrics(FILE *out, struct metrics *metrics)
                  "Num persons   N : %d\n"
                  "Num rooms   N/2 : %d\n"
                  "Num processes P : %d\n"
+                 "Steps used      : %d\n"
+                 "Final cost      : %d\n"
                  "Total seconds   : %f\n",
             metrics->label, metrics->num_persons, metrics->num_rooms,
-            metrics->num_processes, metrics->total_seconds);
+            metrics->num_processes, metrics->steps, metrics->cost,
+            metrics->total_seconds);
 }
 
 void write_metrics_file(char *metrics_file_name, struct metrics *metrics)

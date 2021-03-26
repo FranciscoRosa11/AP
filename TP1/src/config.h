@@ -21,10 +21,11 @@ struct config {
 struct metrics {
     char *label; // label for metrics row from -l command line arg
     double total_seconds;         // total time in seconds for the run
-    int used_iterations; // number of actual iterations needed to complete clustering
     int num_persons;
-    int num_processes; // number of processors that mpi is running on
+    int num_processes; // number of times the algorithm is run
     int num_rooms;
+    int steps; // count of total steps used during a run
+    int cost; // global cost at the end of a run
 };
 
 struct timing {
