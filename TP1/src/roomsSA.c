@@ -45,6 +45,10 @@ void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_room
             d = c + 1;
 
         int delta;
+
+        /*
+            Compute the values of room(c1,1), room(c1,2) etc etc
+        */
         int roomC1 = offset(&rooms_array, c, 1, 2);
         int roomC2 = offset(&rooms_array, c, 2, 2);
         int roomD1 = offset(&rooms_array, d, 1, 2);
@@ -61,7 +65,7 @@ void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_room
             int temp = rooms_array[roomC1];
             rooms_array[roomC1] = rooms_array[roomD1];
             rooms_array[roomD1] = temp;
-            
+
             cost = cost + delta;
             i = 0;
         } else {

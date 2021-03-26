@@ -1,42 +1,71 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "matrix_support.h"
+#include "rooms.h"
 
-int main() {
+void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_rooms, int num_processes) {
+    
+    /*
+        Assign rooms to students in a random way.
+    */ 
+
+    int n = num_persons * num_persons; //equivalent of n = length(cost_matrix)
+
+    randperm(num_persons/2, num_persons/2, &rooms_array);
 
     /*
-        Assign rooms
-
-        n = length(matrix D) --> Translate
-
-        room = reshape(randperm(n), [], 2) --> Reshapes the dimension of input array
-                                               Translate this.
+        Compute the value of cost for the initial distribution
     */
 
-    int cost;
+    int cost = 0;
+    int i = 0;
+    for(i = 0; i <= num_persons/2; i++) {
+        int indexRoom1 = offset(&rooms_array, i, 1, 2);
+        int indexRoom2 = offset(&rooms_array, i, 2, 2);
 
-    int n; // n = length of the matrix, to be added. 
+        cost = cost + offset(&cost_matrix, indexRoom1, indexRoom2, num_persons/2);
+    } 
 
-    int i = 0, steps = 0;
+    /*
+        Initialize algorithm
+    */
 
-    while( i < 100) {
+    i = 0;
+    int steps = 0;
+
+    while(i < 100) {
         steps = steps + 1;
+        int c = rand() % (num_persons/2) + 1;
+        int d;
 
-        int c, d;
-        c = rand() % (n/2) + 1;
-
-        if(c == (n/2))
+        if(c == (num_persons/2))
             d = 1;
         else
-            d = c+1;
-        
+            d = c + 1;
+
         int delta;
-        //compute delta = D(room(c,1)....)....
+
+        /*
+            Compute the values of room(c1,1), room(c1,2) etc etc
+        */
+        int roomC1 = offset(&rooms_array, c, 1, 2);
+        int roomC2 = offset(&rooms_array, c, 2, 2);
+        int roomD1 = offset(&rooms_array, d, 1, 2);
+        int roomD2 = offset(&rooms_array, d, 2, 2);
+        int costC1D2 = offset(&cost_matrix, roomC1, roomD2, num_persons);
+        int costD1C2 = offset(&cost_matrix, roomD1, roomC2, num_persons);
+        int costC1C2 = offset(&cost_matrix, roomC1, roomC2, num_persons);
+        int costD1D2 = offset(&cost_matrix, roomD1, roomD2, num_persons);
+
+        delta = costC1D2 + costD1C2 - costC1C2 - costD1D2;
 
         if(delta < 0) {
             //swap room(c1,1) and room(d1,1)
-            //room([c,d],1) = room([d,c],1)
-            //Translate this
+            int temp = rooms_array[roomC1];
+            rooms_array[roomC1] = rooms_array[roomD1];
+            rooms_array[roomD1] = temp;
+
             cost = cost + delta;
             i = 0;
         } else {
