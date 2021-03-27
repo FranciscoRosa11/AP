@@ -79,6 +79,7 @@ int main(int argc, char* argv [])
     int *rooms_array = new_matrix(num_rooms, PERSONS_PER_ROOM);
 
     // main loop
+#pragma omp for
     for (int i = 0; i < num_processes; i++) {
         if (config->test) {
             rooms_array = setup_test_rooms();
