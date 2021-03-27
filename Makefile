@@ -95,7 +95,7 @@ endif
 #
 
 .PHONY: all
-all: $(BIN) rooms_mc rooms_sa rooms_greedy
+all: $(BIN) rooms_mc rooms_sa rooms_greedy rooms_greedy_person
 
 noop:
 	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_noop $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c $(SRC)rooms_support.c \
@@ -116,6 +116,12 @@ rooms_greedy:
 	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_greedy $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
 										     $(SRC)rooms_support.c \
 										     $(SRC)roomsGreedy.c $(HEADERS) $(LIBS)
+
+
+rooms_greedy_person:
+	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_greedy_person $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
+										     $(SRC)rooms_support.c \
+										     $(SRC)roomsGreedyPerson.c $(HEADERS) $(LIBS)
 
 #
 #montecarlo:

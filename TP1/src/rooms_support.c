@@ -3,11 +3,10 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
 #include "matrix_support.h"
 #include "log.h"
 #include "config.h"
+#include "rooms_support.h"
 
 /**
  * Return a random float between 0 and 1
@@ -80,18 +79,73 @@ int second_occupant(int* rooms_array, int room_number)
 }
 
 /**
+ * Finds which room the given person is in and stores the room number and position (0 or 1)
+ * of their occupancy in that room
+ * @param person person to find
+ * @param rooms_array rooms
+ * @param num_rooms number of rooms
+ * @param room_number pointer to a room number
+ * @param position pointer to the position
+ */
+void find_person(int person, int* rooms_array, int num_rooms, int *room_number, int *position)
+{
+    for (int room = 0; room < num_rooms; room++) {
+        for (int pos = 0; pos < PERSONS_PER_ROOM; pos++) {
+            if (person == *offset(rooms_array, room, pos, PERSONS_PER_ROOM)) {
+                // found them
+                *room_number = room;
+                *position = pos;
+                return;
+            }
+        }
+    }
+    // no where - this should never happen
+    ERROR("The person %d was nowhere to be found - this should never happen", person);
+}
+
+/**
  * Swaps first occupants between rooms
  * @param rooms_array rooms array
  * @param first_room first room to swap from/to
  * @param next_room next room to swap from/to
- * @param occupant_number occupant number STARTS AT ZERO to swap between rooms
+ * @return the delta in total cost this will cause
  */
-void swap_first_occupant(int *rooms_array, int first_room, int next_room)
+int swap_first_occupant(int *rooms_array, int first_room, int next_room, int *cost_matrix, int num_persons)
 {
-    int occupant_number = 0; // swap first occupant
-    int occupant_first_room = *offset(rooms_array, first_room, occupant_number, PERSONS_PER_ROOM);
-    *offset(rooms_array, first_room, occupant_number, 2) = *offset(rooms_array, next_room, occupant_number, PERSONS_PER_ROOM);
-    *offset(rooms_array, next_room, occupant_number, 2) = occupant_first_room;
+    return swap_occupants(rooms_array, first_room, 0, next_room, 0,
+                          cost_matrix, num_persons);
+}
+
+/**
+ * Swaps occupants between rooms and positions
+ * @param rooms_array rooms array
+ * @param first_room first room to swap from/to
+ * @param first_pos position of person in first room
+ * @param other_room next room to swap from/to
+ * @param other_pos position of the person in the other room
+ *
+ * @return the delta in total cost this will cause
+ */
+int swap_occupants(int *rooms_array, int first_room, int first_pos, int other_room, int other_pos,
+                   int *cost_matrix, int num_persons)
+{
+    // get the total cost before of the two rooms
+    int before_cost = room_cost(first_room, cost_matrix, num_persons, rooms_array) +
+            room_cost(other_room, cost_matrix, num_persons, rooms_array);
+
+    // save the first occupant while their place is taken
+    int occupant_first_room = *offset(rooms_array, first_room, first_pos, PERSONS_PER_ROOM);
+    // move the occupant from the other room into this room
+    *offset(rooms_array, first_room, first_pos, PERSONS_PER_ROOM) =
+            *offset(rooms_array, other_room, other_pos, PERSONS_PER_ROOM);
+    // now move the saved occupant into the other ones place
+    *offset(rooms_array, other_room, other_pos, PERSONS_PER_ROOM) = occupant_first_room;
+
+    int after_cost = room_cost(first_room, cost_matrix, num_persons, rooms_array) +
+                      room_cost(other_room, cost_matrix, num_persons, rooms_array);
+    int delta = after_cost - before_cost;
+    DEBUG("Delta %d after swapping room %d:%d x %d:%d", delta, first_room, first_pos, other_room, other_pos);
+    return delta;
 }
 
 /**
@@ -108,15 +162,39 @@ void swap_first_occupant(int *rooms_array, int first_room, int next_room)
 int compatibility_cost(int *cost_matrix, int num_persons, int *rooms_array, int num_rooms)
 {
     int cost = 0;
-    for (int i = 0; i < num_rooms; i++) {
-        int first = first_occupant(rooms_array, i); // person 0 index in room i
-        int second = second_occupant(rooms_array, i); // person 1 index in room i
-        // persons start at zero
-        cost = cost + *offset(cost_matrix, first, second, num_persons);
+    for (int room = 0; room < num_rooms; room++) {
+        cost = cost + room_cost(room, cost_matrix, num_persons, rooms_array);
     }
     return cost;
 }
 
+/**
+ * Use the compatibility cost_matrix to find the cost of a single room
+ * @param room_number the number of the room whose cost we calculate and return
+ * @param cost_matrix square symmetrical matrix giving the compatibility between pairs of persons
+ *        where 1 is most compatible, and 10 is least compatible
+ * @param num_persons the total number of persons paired in rooms
+ * @param rooms_array the array of rooms with initial (random) assignments of persons
+ *
+ * @return the the cost for just this room
+ */
+int room_cost(int room_number, int *cost_matrix, int num_persons, int *rooms_array)
+{
+    int first = first_occupant(rooms_array, room_number); // person 0 index in room room_number
+    int second = second_occupant(rooms_array, room_number); // person 1 index in room room_nuber
+    return *offset(cost_matrix, first, second, num_persons);
+}
+
+/**
+ * Compute the cost change that will result from swapping the first occupant between 2 rooms
+ * @param c the first room
+ * @param d the 2nd room
+ * @param cost_matrix the cost matrix
+ * @param num_persons total number of people
+ * @param rooms_array array of all rooms
+ * @param num_rooms total number of rooms
+ * @return postitive or negative integer indicating the change in cost
+ */
 int delta_cost_for_swap(int c, int d, int *cost_matrix, int num_persons, int *rooms_array, int num_rooms)
 {
     int roomC1 = first_occupant(rooms_array, c);

@@ -59,7 +59,7 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         if (should_swap(delta)) {
             DEBUG("SWAP: Swapping first occupants in rooms %d x %d", c, d);
             debug_matrix("Rooms before swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
-            swap_first_occupant(rooms_array, c, d);
+            swap_first_occupant(rooms_array, c, d, cost_matrix, num_persons);
             debug_matrix("Rooms AFTER  swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
             cost = cost + delta;
             i = 0; // restart the count

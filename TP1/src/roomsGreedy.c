@@ -6,12 +6,12 @@
 #include "math.h"
 
 /**
- * Greedy Implementation:
- * Pairs every person with their best mate, keeping track of which mates are taken.
+ * Simple Greedy Implementation:
+ * Pairs every person with their best mate, but limits swaps to first room occupants (like MC and SA)
  */
 void initialize_algorithm(struct config *config, struct metrics *metrics)
 {
-    metrics->algo_name = "Greedy";
+    metrics->algo_name = "Greedy_Room";
 }
 
 /**
@@ -43,38 +43,37 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
     int *taken = new_matrix(num_rooms, 1);
     fill_matrix_constant(num_rooms, 1, taken, 0);
 
-    // loop until there are 100 iterations without a swap
+    // loop over all rooms
     for(int c = 0; c < num_rooms; c++) {
         steps = steps + 1;
         DEBUG("Starting step %d", steps);
         // Start with the first room and find get the 2nd occupant, and find the other
         // room that has the best first occupant for this room. (it may be the same one)
-        int roomC2 = second_occupant(rooms_array, c);
-        TRACE("Checking all rooms for best match for person %d in room %d", roomC2 , c);
+        int person = second_occupant(rooms_array, c);
+        TRACE("Checking all rooms for best match for person %d in room %d", person , c);
         int best_match_cost = MAX_COST;
         int d = c; // start with best matching room being the same as the current room
         for (int other_room = 0; other_room < num_rooms; other_room++) {
             TRACE("Looking in room %d for a match for room %d", other_room, c);
             // skip the other room it if is already taken
             if (taken[other_room] == 0) {
-                int roomD1 = first_occupant(rooms_array, other_room);
-                int costD1C2 = *offset(cost_matrix, roomD1, roomC2, num_persons);
-                if (costD1C2 < best_match_cost) {
-                    best_match_cost = costD1C2;
+                int other_person = first_occupant(rooms_array, other_room);
+                int match_cost = *offset(cost_matrix, other_person, person, num_persons);
+                if (match_cost < best_match_cost) {
+                    best_match_cost = match_cost;
                     d = other_room;
                     DEBUG("Found new best match for person %d in room %d: person %d in room %d with cost %d",
-                          roomC2, c, roomD1, d, best_match_cost);
+                          person, c, other_person, d, best_match_cost);
                 }
                 else {
                     TRACE("Passing room %d because match cost %d is not better than current best: %d",
-                          other_room, costD1C2, best_match_cost);
+                          other_room, match_cost, best_match_cost);
                 }
             }
             else {
                 TRACE("Skipping room %d because its first occupant is already taken", other_room);
             }
         }
-        int delta = delta_cost_for_swap(c, d, cost_matrix, num_persons, rooms_array, num_rooms);
         // d is now the room with the most compatible roommate for C2
         // only swap if we don't aren't already in the same room
         // but mark this room as taken either way
@@ -83,7 +82,7 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         if (d != c) {
             DEBUG("SWAP: Swapping first occupants in rooms %d x %d", c, d);
             debug_matrix("Rooms before swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
-            swap_first_occupant(rooms_array, c, d);
+            int delta = swap_first_occupant(rooms_array, c, d, cost_matrix, num_persons);
             debug_matrix("Rooms AFTER  swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
             cost = cost + delta;
         } else {
