@@ -15,7 +15,7 @@
 extern void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_rooms, struct metrics *metrics,
                       int stability_indicator);
 
-extern void initialize_algorithm(struct config *config);
+extern void initialize_algorithm(struct config *config, struct metrics *metrics);
 
 extern void start_iteration();
 

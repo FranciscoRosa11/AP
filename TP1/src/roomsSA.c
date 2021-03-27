@@ -20,8 +20,9 @@ float T;
 // annealing_rate is the rate at which T (temperature) reduces each iteration
 float annealing_rate;
 
-void initialize_algorithm(struct config *config)
+void initialize_algorithm(struct config *config, struct metrics *metrics)
 {
+    metrics->algo_name = "Simulated_Annealing";
     T = config->initial_temperature;
     annealing_rate = config->annealing_rate;
 }

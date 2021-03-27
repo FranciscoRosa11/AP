@@ -23,6 +23,7 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
 {
     // Compute the value of cost for the initial distribution
     int cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
+    metrics->initial_cost = cost;
     INFO("Starting cost calculated as: %d", cost);
 
     // Initialize algorithm

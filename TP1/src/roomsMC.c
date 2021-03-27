@@ -13,10 +13,9 @@
  * After a certain number of iterations with no swaps, the assignments are considered stable and
  * the algorithm exits.
  */
-
-void initialize_algorithm(struct config *config)
+void initialize_algorithm(struct config *config, struct metrics *metrics)
 {
-    // NOOP
+    metrics->algo_name = "Monte_Carlo";
 }
 
 void start_iteration()

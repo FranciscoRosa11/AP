@@ -98,7 +98,7 @@ int main(int argc, char* argv [])
         start_main_timing(timing);
 
         // run the main implementation
-        initialize_algorithm(config);
+        initialize_algorithm(config, metrics);
         run_rooms(cost_matrix, n, rooms_array, num_rooms, metrics, config->stability_indicator);
 
         // stop the clock

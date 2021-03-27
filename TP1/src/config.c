@@ -33,6 +33,7 @@ struct metrics *new_metrics(struct config *config)
 {
     struct metrics *new_metrics = (struct metrics *)malloc(sizeof(struct metrics));
     new_metrics->label = config->label;
+    new_metrics->algo_name = "unknown";
     new_metrics->num_processes = config->num_processes;
     new_metrics->num_persons = config->num_persons;
     new_metrics->num_processes = config->num_processes;
@@ -213,7 +214,11 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
  */
 void print_metrics_headers(FILE *out)
 {
-    fprintf(out, "label,total_seconds,num_persons,num_processes,steps_used,final_cost\n");
+    fprintf(out, "algorithm,label,total_seconds,"
+                 "num_persons,num_rooms,persons_per_room,"
+                 "stability_indicator,num_processes,"
+                 "initial_temperature,annealing_rate,"
+                 "steps_used,initial_cost,final_cost\n");
 }
 
 /**
@@ -223,10 +228,16 @@ void print_metrics_headers(FILE *out)
  */
 void print_metrics(FILE *out, struct metrics *metrics)
 {
-    fprintf(out, "%s,%f,%d,%d,%d,%d\n",
-            metrics->label, metrics->total_seconds,
-            metrics->num_persons, metrics->num_processes,
-            metrics->steps, metrics->cost);
+    fprintf(out, "%s,%s,%f,"
+                 "%d,%d,%d,"
+                 "%d,%d,"
+                 "%f,%f,"
+                 "%d,%d,%d\n",
+            metrics->algo_name, metrics->label, metrics->total_seconds,
+            metrics->num_persons, metrics->num_rooms, PERSONS_PER_ROOM,
+            metrics->stability_indicator, metrics->num_processes,
+            metrics->initial_temperature, metrics->annealing_rate,
+            metrics->steps, metrics->initial_cost, metrics->cost);
 }
 
 /**
@@ -236,15 +247,22 @@ void print_metrics(FILE *out, struct metrics *metrics)
  */
 void summarize_metrics(FILE *out, struct metrics *metrics)
 {
-    fprintf(out, "Run Label       : %s\n"
+    fprintf(out, "Algorithm       : %s\n"
+                 "Run Label       : %s\n"
                  "Num persons   N : %d\n"
-                 "Num rooms   N/%d  : %d\n"
+                 "Num rooms   N/%d : %d\n"
+                 "Stability count : %d\n"
                  "Num processes P : %d\n"
+                 "Initial T       : %f\n"
+                 "Annealing rate  : %f\n"
                  "Steps used      : %d\n"
                  "Final cost      : %d\n"
                  "Total seconds   : %f\n",
-            metrics->label, metrics->num_persons, metrics->num_rooms, PERSONS_PER_ROOM,
-            metrics->num_processes, metrics->steps, metrics->cost,
+            metrics->algo_name, metrics->label, metrics->num_persons,
+            metrics->num_rooms, PERSONS_PER_ROOM,
+            metrics->stability_indicator, metrics->num_processes,
+            metrics->initial_temperature, metrics->annealing_rate,
+            metrics->steps, metrics->cost,
             metrics->total_seconds);
 }
 
