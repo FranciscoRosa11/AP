@@ -147,15 +147,15 @@ int *setup_test_rooms()
  * Sets up the expected results of the test.
  * Since person 1 hates person 2, the results are expected to be:
  *          p1   p2
- * room 0:   1   4
- * room 1:   3   2
+ * room 0:   3   2
+ * room 1:   1   4
  */
 int *setup_test_expected_rooms()
 {
     int *expected = new_matrix(2, 2);
-    expected[0] = 1;
-    expected[1] = 4;
-    expected[2] = 3;
-    expected[3] = 2;
+    expected[0] = 3;
+    expected[1] = 2;
+    expected[2] = 1;
+    expected[3] = 4;
 }
 

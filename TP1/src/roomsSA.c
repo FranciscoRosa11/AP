@@ -32,10 +32,10 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
         /*
             Compute the values of room(c1,1), room(c1,2) etc etc
         */
-        int roomC1 = first_occupant(rooms_array, c);
-        int roomC2 = second_occupant(rooms_array, c);
-        int roomD1 = first_occupant(rooms_array, d);
-        int roomD2 = second_occupant(rooms_array, d);
+        int roomC1 = first_occupant(rooms_array, c) - 1;
+        int roomC2 = second_occupant(rooms_array, c) - 1;
+        int roomD1 = first_occupant(rooms_array, d) - 1;
+        int roomD2 = second_occupant(rooms_array, d) - 1;
         int costC1D2 = *offset(cost_matrix, roomC1, roomD2, num_persons);
         int costD1C2 = *offset(cost_matrix, roomD1, roomC2, num_persons);
         int costC1C2 = *offset(cost_matrix, roomC1, roomC2, num_persons);
