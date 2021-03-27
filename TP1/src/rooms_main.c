@@ -1,3 +1,4 @@
+#include <time.h>
 #include "config.h"
 #include "rooms.h"
 #include "log.h"
@@ -44,6 +45,7 @@ void update_metrics(struct metrics *metrics, struct timing *timing)
 
 int main(int argc, char* argv [])
 {
+    srand(time(NULL));
     config = new_config();
     parse_cli(argc, argv, config, &log_level);
 
