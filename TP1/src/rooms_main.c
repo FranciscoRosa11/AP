@@ -63,7 +63,7 @@ int main(int argc, char* argv [])
     }
     else {
         INFO("Allocating cost matrix %zu x %zu", n, n);
-        int *cost_matrix = new_matrix(n, n); // square
+        cost_matrix = new_matrix(n, n); // square
 
         INFO("Generating random data for cost matrix");
         fill_matrix_random(n, n, cost_matrix, 1, 10);
