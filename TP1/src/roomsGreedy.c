@@ -79,6 +79,7 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
         // only swap if we don't aren't already in the same room
         // but mark this room as taken either way
         taken[d] = 1;
+        taken[c] = 1; // mark C as taken too, so that we don't swap back
         if (d != c) {
             DEBUG("SWAP: Swapping first occupants in rooms %d x %d", c, d);
             debug_matrix("Rooms before swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
