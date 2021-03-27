@@ -18,8 +18,8 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
     float T = temp;
 
     // loop until there are 100 iterations without a swap
-    #pragma omp parallel default(none) private(i) shared(steps, num_rooms, rooms_array, cost_matrix, num_persons)
-    for(;i < 100;) {
+    #pragma omp parallel for
+    for(i = 0;i < 100;i++) {
         steps = steps + 1;
 
         DEBUG("Starting step %d. Steps without swap: %d", steps, i);
@@ -65,7 +65,7 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
             i = 0; // restart the count
             DEBUG("Delta = %d:  swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
         } else {
-            i = i + 1; // count non-swap steps
+            //i = i + 1; // count non-swap steps
         }
 
         T = 0.999 * T; // reduce the temperature (annealing)
