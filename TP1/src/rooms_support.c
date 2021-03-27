@@ -93,8 +93,37 @@ int compatibility_cost(int* cost_matrix, int num_persons, int* rooms_array, int 
         int first = first_occupant(rooms_array, i); // person 1 index in room i
         int second = second_occupant(rooms_array, i); // person 2 index in room i
         WARN("room=%d  first=%d, second=%d", i, first, second);
-        cost = cost + *offset(cost_matrix, first, second, num_persons);
+        // persons start at 1, but the cost matrix at zero so subtract 1
+        cost = cost + *offset(cost_matrix, first-1, second-1, num_persons);
     }
     return cost;
 }
+
+int *setup_test_cost_matrix()
+{
+    int rows = 4, cols = 4;
+    int *matrix = new_matrix(rows, cols);
+    for (int i = 0; i < rows; ++i) {
+        for (int j = i; j < cols; ++j) {
+            int cost = 0;
+            if (i != j) {
+                cost = i + j;
+            }
+            *offset(matrix, i, j, cols) = cost;
+            *offset(matrix, j, i, cols) = cost;
+        }
+    }
+    return matrix;
+}
+
+int *setup_test_rooms()
+{
+    int rows = 2, cols = 2;
+    int *matrix = new_matrix(2, 2);
+    for (int i = 0; i < 4; ++i) {
+        *(matrix + i) = i;
+    }
+    return matrix;
+}
+
 

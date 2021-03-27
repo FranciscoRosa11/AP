@@ -27,6 +27,7 @@ extern int second_occupant(int* rooms_array, int room_number);
 
 /**
  * Return a random float between 0 and 1
+ *
  */
 extern float random_float();
 
@@ -44,3 +45,6 @@ extern int random_count(int max);
  * @param array
  */
 extern void randperm(int rows, int cols, int *array);
+
+extern int *setup_test_rooms();
+extern int *setup_test_cost_matrix();

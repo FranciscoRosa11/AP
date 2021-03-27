@@ -18,7 +18,7 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
     float T = temp;
 
     // loop until there are 100 iterations without a swap
-    #pragma omp parallel default(none) private(i) shared(steps, num_rooms, rooms_array, cost_matrix, num_persons)
+//    #pragma omp parallel default(none) private(i) shared(steps, num_rooms, rooms_array, cost_matrix, num_persons)
     for(;i < 100;) {
         steps = steps + 1;
 

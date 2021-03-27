@@ -17,6 +17,7 @@ struct config {
     char *test_file;
     char *metrics_file;
     char *label;
+    bool test;
 };
 
 struct metrics {

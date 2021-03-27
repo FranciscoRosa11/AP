@@ -46,20 +46,28 @@ int main(int argc, char* argv [])
 {
     config = new_config();
     parse_cli(argc, argv, config, &log_level);
-    int n = config->num_persons;
+    // test runs with only 4 people, ignoring num_persons
+    int n = config->test ? 4 : config->num_persons;
     float temp = config->temp;
     int num_rooms = n / 2; // n guaranteed even by config.c validate_config
     struct metrics *metrics = new_metrics(config);
     metrics->num_rooms = num_rooms;
 
-    INFO("Allocating cost matrix %zu x %zu", n, n);
-    int *cost_matrix = new_matrix(n, n); // square
+    int *cost_matrix;
+    if (config->test) {
+        INFO("Creating test cost matrix 4x4");
+        cost_matrix = setup_test_cost_matrix();
+    }
+    else {
+        INFO("Allocating cost matrix %zu x %zu", n, n);
+        int *cost_matrix = new_matrix(n, n); // square
 
-    INFO("Generating random data for cost matrix");
-    fill_matrix_random(n, n, cost_matrix, 1, 10);
-//    fill_matrix_constant(n, n, cost_matrix, 0);
-    if (log_level <= debug) {
-        print_matrix("DEBUG Cost Matrix", n, n, cost_matrix);
+        INFO("Generating random data for cost matrix");
+        fill_matrix_random(n, n, cost_matrix, 1, 10);
+    }
+
+    if (log_level >= info) {
+        print_matrix("Initial Cost Matrix", n, n, cost_matrix);
     }
 
     INFO("Allocating rooms array with 2 people per room %zu x %zu", num_rooms, 2);
@@ -67,10 +75,16 @@ int main(int argc, char* argv [])
 
     // main loop
     for (int i = 0; i < config->num_processes; i++) {
-        INFO("Randomizing room allocation of persons");
-        randperm(num_rooms, 2, rooms_array);
-        if (log_level <= debug) {
-            print_matrix("DEBUG Initial Rooms Array", num_rooms, 2, rooms_array);
+        if (config->test) {
+            rooms_array = setup_test_rooms();
+        }
+        else {
+            INFO("Randomizing room allocation of persons");
+            randperm(num_rooms, 2, rooms_array);
+        }
+
+        if (log_level >= info) {
+            print_matrix("Initial Rooms Array", num_rooms, 2, rooms_array);
         }
 
         struct timing *timing = new_timing();
@@ -86,6 +100,10 @@ int main(int argc, char* argv [])
 
         // allow the implementation to clean up
         update_metrics(metrics, timing);
+
+        if (log_level >= info) {
+            print_matrix("Final; Rooms Array", num_rooms, 2, rooms_array);
+        }
     }
 //    free(config);
 //    free(rooms_array);

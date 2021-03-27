@@ -55,7 +55,7 @@ void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_
     int range = rand_max - rand_min + 1;
     for (int i = 0; i < rows; ++i) {
         for (int j = i; j < cols; ++j) {
-            int random_number = (rand() % range) + rand_min;
+            int random_number = i == j ? 0 : (rand() % range) + rand_min;
             *offset(matrix, i, j, cols) = random_number;
             *offset(matrix, j, i, cols) = random_number;
         }

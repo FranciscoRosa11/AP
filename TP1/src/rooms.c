@@ -18,7 +18,7 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
     float T = 1.f;
 
     // loop until there are 100 iterations without a swap
-    #pragma omp parallel
+//    #pragma omp parallel
     while(i < 100) {
         steps = steps + 1;
         int c = random_count(num_rooms) - 1; // index of random room

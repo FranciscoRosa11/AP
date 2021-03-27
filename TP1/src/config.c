@@ -20,6 +20,7 @@ struct config *new_config()
     new_config->num_persons = 10;
     new_config->num_processes = 1;
     new_config->temp = 1.f;
+    new_config->test = false;
     return new_config;
 }
 
@@ -127,6 +128,7 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
             {"label", required_argument, NULL,             'l'},
             {"persons", required_argument, NULL,           'n'},
             {"processes", required_argument, NULL,         'p'},
+            {"test", required_argument, NULL,              'x'},
             {"help", required_argument, NULL,              'h'},
             {"temp", required_argument, NULL,              't'},
             // log options
@@ -139,7 +141,7 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
             {NULL, 0, NULL,                                0}
     };
     int option_index = 0;
-    while((opt = getopt_long(argc, argv, "-p:n:l:m:h" , long_options, &option_index)) != -1)
+    while((opt = getopt_long(argc, argv, "-p:n:l:m:hx" , long_options, &option_index)) != -1)
     {
 //        fprintf(stderr, "FOUND OPT: [%c]\n", opt);
         switch(opt) {
@@ -166,6 +168,9 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
                 break;
             case 'l':
                 new_config->label = optarg;
+                break;
+            case 'x':
+                new_config->test = true;
                 break;
             case ':':
                 fprintf(stderr, "ERROR: Option %c needs a value\n", optopt);
