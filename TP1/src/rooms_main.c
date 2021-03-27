@@ -54,7 +54,7 @@ int main(int argc, char* argv [])
     int num_processes = config->test ? 1 : config->num_processes;
 
     float temp = config->temp;
-    int num_rooms = n / 2; // n guaranteed even by config.c validate_config
+    int num_rooms = n / PERSONS_PER_ROOM; // n guaranteed even by config.c validate_config
     struct metrics *metrics = new_metrics(config);
     metrics->num_rooms = num_rooms;
 
@@ -75,8 +75,8 @@ int main(int argc, char* argv [])
         print_matrix("Initial Cost Matrix", n, n, cost_matrix);
     }
 
-    INFO("Allocating rooms array with 2 people per room %zu x %zu", num_rooms, 2);
-    int *rooms_array = new_matrix(num_rooms, 2);
+    INFO("Allocating rooms array %d x %d", num_rooms, PERSONS_PER_ROOM);
+    int *rooms_array = new_matrix(num_rooms, PERSONS_PER_ROOM);
 
     // main loop
     for (int i = 0; i < num_processes; i++) {
@@ -85,11 +85,11 @@ int main(int argc, char* argv [])
         }
         else {
             INFO("Randomizing room allocation of persons");
-            randperm(num_rooms, 2, rooms_array);
+            randperm(num_rooms, PERSONS_PER_ROOM, rooms_array);
         }
 
         if (log_level >= info) {
-            print_matrix("Initial Rooms Array", num_rooms, 2, rooms_array);
+            print_matrix("Initial Rooms Array", num_rooms, PERSONS_PER_ROOM, rooms_array);
         }
 
         struct timing *timing = new_timing();
@@ -103,22 +103,30 @@ int main(int argc, char* argv [])
         // stop the clock
         end_main_timing(timing);
 
-        // allow the implementation to clean up
+        if (log_level >= info) {
+            print_matrix("Final; Rooms Array", num_rooms, PERSONS_PER_ROOM, rooms_array);
+        }
+
+        // Update the metrics, write to file and print them if needed
         update_metrics(metrics, timing);
 
-        if (log_level >= info) {
-            print_matrix("Final; Rooms Array", num_rooms, 2, rooms_array);
+        // make sure the cost that was summed with deltas along the way matches the final calculated cost
+        // A failure here means an error in delta calculation which could be a serious error in calculations
+        int calculated_cost = compatibility_cost(cost_matrix, n, rooms_array, num_rooms);
+        if (calculated_cost != metrics->cost) {
+            ERROR("Final calculated cost:%d is DIFFERENT from accumulated cost: %d\n"
+                  "This usually indicates a problem delta calculation", calculated_cost, metrics->cost);
         }
 
         if (config->test) {
             int *expected = setup_test_expected_rooms();
-            if (matrices_equal(2, 2, expected, rooms_array)) {
+            if (matrices_equal(2, PERSONS_PER_ROOM, expected, rooms_array)) {
                 printf("Test PASSED");
             }
             else {
                 fprintf(stderr, "Test FAILED! Result does not match expected:");
-                print_matrix("Expected", 2, 2, expected);
-                print_matrix("Result", 2, 2, rooms_array);
+                print_matrix("Expected", 2, PERSONS_PER_ROOM, expected);
+                print_matrix("Result", 2, PERSONS_PER_ROOM, rooms_array);
             }
         }
     }

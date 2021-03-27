@@ -103,7 +103,7 @@ float valid_float(char opt, char *arg)
 void validate_config(struct config *config)
 {
     // ensure even persons
-    if (config->num_persons % 2 != 0) {
+    if (config->num_persons % PERSONS_PER_ROOM != 0) {
         FAIL("The number of persons must be even to divide between rooms");
     }
 
@@ -222,12 +222,12 @@ void summarize_metrics(FILE *out, struct metrics *metrics)
 {
     fprintf(out, "Run Label       : %s\n"
                  "Num persons   N : %d\n"
-                 "Num rooms   N/2 : %d\n"
+                 "Num rooms   N/%d  : %d\n"
                  "Num processes P : %d\n"
                  "Steps used      : %d\n"
                  "Final cost      : %d\n"
                  "Total seconds   : %f\n",
-            metrics->label, metrics->num_persons, metrics->num_rooms,
+            metrics->label, metrics->num_persons, metrics->num_rooms, PERSONS_PER_ROOM,
             metrics->num_processes, metrics->steps, metrics->cost,
             metrics->total_seconds);
 }

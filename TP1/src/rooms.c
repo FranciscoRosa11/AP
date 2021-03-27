@@ -21,7 +21,7 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
 //    #pragma omp parallel
     while(i < 100) {
         steps = steps + 1;
-        int c = random_count(num_rooms) - 1; // index of random room
+        int c = random_int(num_rooms) - 1; // index of random room
         int d = next_room(c, num_rooms); // index of the next room
 
         int delta;

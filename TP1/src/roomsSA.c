@@ -7,10 +7,9 @@
 
 void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, int num_rooms, struct metrics *metrics)
 {
-    int n = num_persons * num_persons; //equivalent of n = length(cost_matrix)
-
     // Compute the value of cost for the initial distribution
     int cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
+    INFO("Starting cost calculated as: %d", cost);
 
     // Initialize algorithm
     int i = 0;
@@ -23,8 +22,7 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
         steps = steps + 1;
 
         DEBUG("Starting step %d. Steps without swap: %d", steps, i);
-        int c;
-        c = random_count(num_rooms) - 1; // index of random room
+        int c = random_int(num_rooms); // index of random room
         int d = next_room(c, num_rooms); // index of the next room
 
         int delta;
@@ -32,10 +30,10 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
         /*
             Compute the values of room(c1,1), room(c1,2) etc etc
         */
-        int roomC1 = first_occupant(rooms_array, c) - 1;
-        int roomC2 = second_occupant(rooms_array, c) - 1;
-        int roomD1 = first_occupant(rooms_array, d) - 1;
-        int roomD2 = second_occupant(rooms_array, d) - 1;
+        int roomC1 = first_occupant(rooms_array, c);
+        int roomC2 = second_occupant(rooms_array, c);
+        int roomD1 = first_occupant(rooms_array, d);
+        int roomD2 = second_occupant(rooms_array, d);
         int costC1D2 = *offset(cost_matrix, roomC1, roomD2, num_persons);
         int costD1C2 = *offset(cost_matrix, roomD1, roomC2, num_persons);
         int costC1C2 = *offset(cost_matrix, roomC1, roomC2, num_persons);
@@ -58,19 +56,21 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
               delta, T, delta_on_T, exp_minus_delta_on_T, threshold, cost);
         if (delta < 0 || exp_minus_delta_on_T > threshold) {
             //swap room(c1,1) and room(d1,1)
-            int temp_room = rooms_array[roomC1];
-            rooms_array[roomC1] = rooms_array[roomD1];
-            rooms_array[roomD1] = temp_room;
+            DEBUG("SWAP: Delta = %d: Swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
+            debug_matrix("Rooms before swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
+            swap_first_occupant(rooms_array, c, d);
+            debug_matrix("Rooms AFTER  swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
             cost = cost + delta;
             i = 0; // restart the count
-            DEBUG("SWAP: Delta = %d: Swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
-            int calculated_cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
-            if (calculated_cost != cost) {
-                WARN("WARNING: Calculated cost = %d DIFFERENT from the cost=cost+delta = %d. Delta = %d", calculated_cost, cost, delta);
-            }
-            else {
-                DEBUG("cost=cost+delta = %d. Calculated cost = %d same", cost, calculated_cost);
-            }
+
+            // uncomment to debug differences between calc and summed cost
+//            int calculated_cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
+//            if (calculated_cost != cost) {
+//                WARN("WARNING: Calculated cost = %d DIFFERENT from the cost=cost+delta = %d. Delta = %d", calculated_cost, cost, delta);
+//            }
+//            else {
+//                DEBUG("cost=cost+delta = %d. Calculated cost = %d same", cost, calculated_cost);
+//            }
         } else {
             i = i + 1; // count non-swap steps
         }

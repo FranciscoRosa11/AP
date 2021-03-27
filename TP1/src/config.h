@@ -8,6 +8,8 @@
 #include <omp.h>
 #include "log.h"
 
+#define PERSONS_PER_ROOM 2
+
 struct config {
     int num_persons;
     int num_processes;

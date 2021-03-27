@@ -10,7 +10,7 @@ void run_rooms(int* cost_matrix, int num_persons, int* rooms_array, int num_room
 {
     INFO("NOOP run_rooms with num_persons=%d, num_rooms=%d, num_processes=%d", num_persons, num_rooms);
     print_matrix("Cost Matrix", num_persons, num_persons, cost_matrix);
-    print_matrix("Rooms Array", num_rooms, 2, rooms_array);
+    print_matrix("Rooms Array", num_rooms, PERSONS_PER_ROOM, rooms_array);
     metrics->steps = 0;
     metrics->cost = 0;
 }

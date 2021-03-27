@@ -22,8 +22,9 @@ extern int compatibility_cost(int* cost_matrix, int num_persons, int* rooms_arra
 
 extern int next_room(int room_number, int num_rooms);
 
-extern int first_occupant(int* rooms_array, int room_number);
-extern int second_occupant(int* rooms_array, int room_number);
+extern int first_occupant(int *rooms_array, int room_number);
+extern int second_occupant(int *rooms_array, int room_number);
+extern void swap_first_occupant(int *rooms_array, int first_room, int next_room);
 
 /**
  * Return a random float between 0 and 1
@@ -36,7 +37,7 @@ extern float random_float();
  * @param max
  * @return
  */
-extern int random_count(int max);
+extern int random_int(int max);
 
 /**
  * Randomly permutes all counting numbers from 1 to size through the full size of the array

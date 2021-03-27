@@ -67,4 +67,5 @@ extern void write_matrix(FILE *out, char *label, char sep, int rows, int cols, i
  * @param matrix two dimensional array of ints for the matrix
  */
 extern void print_matrix(char *label, int rows, int cols, int *matrix);
+extern void debug_matrix(char *label, int rows, int cols, int *matrix);
 #endif

@@ -138,7 +138,7 @@ void write_matrix(FILE *out, char *label, char sep, int rows, int cols, int *mat
 }
 
 /**
- * Print the matrix of to stdout
+ * Print the matrix to stdout
  *
  * @param rows number of rows in the matrix
  * @param cols number of columns in the matrix
@@ -150,3 +150,16 @@ void print_matrix(char *label, int rows, int cols, int *matrix)
     printf("\n");
 }
 
+/**
+ * Print the matrix to stdout only if debug is on
+ *
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
+ * @param matrix two dimensional array of ints for the matrix
+ */
+void debug_matrix(char *label, int rows, int cols, int *matrix)
+{
+    if (log_level >= debug) {
+        print_matrix(label, rows, cols, matrix);
+    }
+}

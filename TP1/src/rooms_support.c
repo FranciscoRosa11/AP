@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include "matrix_support.h"
 #include "log.h"
-
+#include "config.h"
 
 /**
  * Return a random float between 0 and 1
@@ -22,9 +22,9 @@ float random_float()
  * @param max the maximum random number to return
  * @return
  */
-int random_count(int max)
+int random_int(int max)
 {
-    return (rand() % max) + 1;
+    return (rand() % max);
 }
 
 /**
@@ -36,9 +36,9 @@ int random_count(int max)
 void randperm(int rows, int cols, int *array)
 {
     int size = rows * cols;
-    // fill matrix with counting numbers 1 - size of matrix + 1
+    // fill matrix with numbers starting with zero
     for (int i = 0; i < size; i++) {
-        array[i] = i + 1;
+        array[i] = i;
     }
 
     // Randomly permute
@@ -65,14 +65,33 @@ int next_room(int room_number, int num_rooms)
     return next_room;
 }
 
-int first_occupant(int* rooms_array, int room_number)
+int first_occupant(int *rooms_array, int room_number)
 {
-    return *offset(rooms_array, room_number, 0, 2);
+    int person = *offset(rooms_array, room_number, 0, PERSONS_PER_ROOM);
+    TRACE("First  occupant of room %d = %d", room_number, person);
+    return person;
 }
 
 int second_occupant(int* rooms_array, int room_number)
 {
-    return *offset(rooms_array, room_number, 1, 2);
+    int person = *offset(rooms_array, room_number, 1, PERSONS_PER_ROOM);
+    TRACE("Second occupant of room %d = %d", room_number, person);
+    return person;
+}
+
+/**
+ * Swaps first occupants between rooms
+ * @param rooms_array rooms array
+ * @param first_room first room to swap from/to
+ * @param next_room next room to swap from/to
+ * @param occupant_number occupant number STARTS AT ZERO to swap between rooms
+ */
+void swap_first_occupant(int *rooms_array, int first_room, int next_room)
+{
+    int occupant_number = 0; // swap first occupant
+    int occupant_first_room = *offset(rooms_array, first_room, occupant_number, PERSONS_PER_ROOM);
+    *offset(rooms_array, first_room, occupant_number, 2) = *offset(rooms_array, next_room, occupant_number, PERSONS_PER_ROOM);
+    *offset(rooms_array, next_room, occupant_number, 2) = occupant_first_room;
 }
 
 /**
@@ -86,15 +105,14 @@ int second_occupant(int* rooms_array, int room_number)
  *
  * @return the sum of all of the compatibility scores over all rooms
  */
-int compatibility_cost(int* cost_matrix, int num_persons, int* rooms_array, int num_rooms)
+int compatibility_cost(int *cost_matrix, int num_persons, int *rooms_array, int num_rooms)
 {
     int cost = 0;
     for (int i = 0; i < num_rooms; i++) {
-        int first = first_occupant(rooms_array, i); // person 1 index in room i
-        int second = second_occupant(rooms_array, i); // person 2 index in room i
-        WARN("room=%d  first=%d, second=%d", i, first, second);
-        // persons start at 1, but the cost matrix at zero so subtract 1
-        cost = cost + *offset(cost_matrix, first-1, second-1, num_persons);
+        int first = first_occupant(rooms_array, i); // person 0 index in room i
+        int second = second_occupant(rooms_array, i); // person 1 index in room i
+        // persons start at zero
+        cost = cost + *offset(cost_matrix, first, second, num_persons);
     }
     return cost;
 }
@@ -131,14 +149,14 @@ int *setup_test_cost_matrix()
 /**
  * Sets up a constant initial room assignment for testing.
  *          p1   p2
- * room 0:   1   2
- * room 1:   3   4
+ * room 0:   0   1
+ * room 1:   2   3
  */
 int *setup_test_rooms()
 {
-    int *matrix = new_matrix(2, 2);
+    int *matrix = new_matrix(2, PERSONS_PER_ROOM);
     for (int i = 0; i < 4; ++i) {
-        *(matrix + i) = i + 1;
+        *(matrix + i) = i;
     }
     return matrix;
 }
@@ -147,15 +165,15 @@ int *setup_test_rooms()
  * Sets up the expected results of the test.
  * Since person 1 hates person 2, the results are expected to be:
  *          p1   p2
- * room 0:   3   2
- * room 1:   1   4
+ * room 0:   2   1
+ * room 1:   0   3
  */
 int *setup_test_expected_rooms()
 {
-    int *expected = new_matrix(2, 2);
-    expected[0] = 3;
-    expected[1] = 2;
-    expected[2] = 1;
-    expected[3] = 4;
+    int *expected = new_matrix(2, PERSONS_PER_ROOM);
+    expected[0] = 2;
+    expected[1] = 1;
+    expected[2] = 0;
+    expected[3] = 3;
 }
 
