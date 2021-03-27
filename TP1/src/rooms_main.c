@@ -126,8 +126,10 @@ int main(int argc, char* argv [])
             }
             else {
                 fprintf(stderr, "Test FAILED! Result does not match expected:");
-                print_matrix("Expected", 2, PERSONS_PER_ROOM, expected);
-                print_matrix("Result", 2, PERSONS_PER_ROOM, rooms_array);
+                write_matrix(stderr, "Expected", -1, 2, PERSONS_PER_ROOM, expected);
+                printf("\n");
+                write_matrix(stderr, "Actual ", -1, 2, PERSONS_PER_ROOM, rooms_array);
+                printf("\n");
             }
         }
     }

@@ -107,7 +107,7 @@ rooms_sa:
 										 $(SRC)roomsSA.c $(HEADERS) $(LIBS)
 
 rooms_mc:
-	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_sa $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
+	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_mc $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
 										 $(SRC)rooms_support.c $(SRC)rooms_base_impl.c \
 										 $(SRC)roomsMC.c $(HEADERS) $(LIBS)
 
