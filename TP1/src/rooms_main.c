@@ -46,8 +46,11 @@ int main(int argc, char* argv [])
 {
     config = new_config();
     parse_cli(argc, argv, config, &log_level);
-    // test runs with only 4 people, ignoring num_persons
+
+    // test runs with only 4 people and 1 process, ignoring other option
     int n = config->test ? 4 : config->num_persons;
+    int num_processes = config->test ? 1 : config->num_processes;
+
     float temp = config->temp;
     int num_rooms = n / 2; // n guaranteed even by config.c validate_config
     struct metrics *metrics = new_metrics(config);
@@ -74,7 +77,7 @@ int main(int argc, char* argv [])
     int *rooms_array = new_matrix(num_rooms, 2);
 
     // main loop
-    for (int i = 0; i < config->num_processes; i++) {
+    for (int i = 0; i < num_processes; i++) {
         if (config->test) {
             rooms_array = setup_test_rooms();
         }
@@ -103,6 +106,18 @@ int main(int argc, char* argv [])
 
         if (log_level >= info) {
             print_matrix("Final; Rooms Array", num_rooms, 2, rooms_array);
+        }
+
+        if (config->test) {
+            int *expected = setup_test_expected_rooms();
+            if (matrices_equal(2, 2, expected, rooms_array)) {
+                printf("Test PASSED");
+            }
+            else {
+                fprintf(stderr, "Test FAILED! Result does not match expected:");
+                print_matrix("Expected", 2, 2, expected);
+                print_matrix("Result", 2, 2, rooms_array);
+            }
         }
     }
 //    free(config);

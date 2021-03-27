@@ -42,6 +42,17 @@ extern int *new_matrix(int rows, int cols);
  */
 extern void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_max);
 
+/**
+ * Compare two matrices and return true if they have the same elements
+ *
+ * @param rows number of rows in the matrices
+ * @param cols number of columns in the matrices
+ * @param matrix1 matrix to compare
+ * @param matrix2 matrix to compare
+ * @return true if they're equal, false if not
+ */
+extern bool matrices_equal(int rows, int cols, int *matrix1, int* matrix2);
+
 extern void fill_matrix_constant(int rows, int cols, int *matrix, int constant);
 
 

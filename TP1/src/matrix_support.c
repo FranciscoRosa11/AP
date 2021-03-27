@@ -63,6 +63,27 @@ void fill_matrix_random(int rows, int cols, int *matrix, int rand_min, int rand_
 }
 
 /**
+ * Compare two matrices and return true if they have the same elements
+ *
+ * @param rows number of rows in the matrices
+ * @param cols number of columns in the matrices
+ * @param matrix1 matrix to compare
+ * @param matrix2 matrix to compare
+ * @return true if they're equal, false if not
+ */
+bool matrices_equal(int rows, int cols, int *matrix1, int* matrix2)
+{
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (*offset(matrix1, i, j, cols) != *offset(matrix2, i, j, cols)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+/**
  * Fill the given matrix with a constant integer
  *
  * @param rows number of rows in the matrix
@@ -77,6 +98,7 @@ void fill_matrix_constant(int rows, int cols, int *matrix, int constant)
         }
     }
 }
+
 
 /**
  * Write the matrix out to the specified file pointer
@@ -127,3 +149,4 @@ void print_matrix(char *label, int rows, int cols, int *matrix)
     write_matrix(stdout, label, -1, rows, cols, matrix);
     printf("\n");
 }
+

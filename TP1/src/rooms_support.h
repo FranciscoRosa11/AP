@@ -47,4 +47,5 @@ extern int random_count(int max);
 extern void randperm(int rows, int cols, int *array);
 
 extern int *setup_test_rooms();
+extern int *setup_test_expected_rooms();
 extern int *setup_test_cost_matrix();
