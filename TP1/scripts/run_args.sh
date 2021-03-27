@@ -10,7 +10,7 @@ cd TP1/bin/
 
 echo "Results:"
 
-for i in {100,200,300}
+for i in {100,200,300,400,500,1000}
 do
     for j in {1.1,1.2,1.3,1.4,1.5}
     do
