@@ -20,7 +20,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/proj1_rooms.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/proj1_rooms.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/roomsSA.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/roomsSA.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
