@@ -5,78 +5,52 @@
 #include "rooms_support.h"
 #include "math.h"
 
-void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, int num_rooms, struct metrics *metrics)
+/**
+ * Simulated Annealing Implementation:
+ * Same base algo as Monte Carlo but adds a chance of swapping rooms even when the swap
+ * does not necessarily reduce the overall cost.
+ * This is done by adding a "temperature" T that cools at a certain rate per iteration
+ * (annealing). At higher temperatures and unexpected swap is more probably.
+ * So as time (iterations) goes by swaps are more likely to be driven only by actual
+ * improvements.
+ */
+
+// T is the temperature - the probability of swapping even if the swap does not reduce cost
+float T;
+// annealing_rate is the rate at which T (temperature) reduces each iteration
+float annealing_rate;
+
+void initialize_algorithm(struct config *config)
 {
-    // Compute the value of cost for the initial distribution
-    int cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
-    INFO("Starting cost calculated as: %d", cost);
-
-    // Initialize algorithm
-    int i = 0;
-    int steps = 0;
-    float T = temp;
-
-    // loop until there are 100 iterations without a swap
-//    #pragma omp parallel default(none) private(i) shared(steps, num_rooms, rooms_array, cost_matrix, num_persons)
-    for(;i < 100;) {
-        steps = steps + 1;
-
-        DEBUG("Starting step %d. Steps without swap: %d", steps, i);
-        int c = random_int(num_rooms); // index of random room
-        int d = next_room(c, num_rooms); // index of the next room
-
-        int delta;
-
-        /*
-            Compute the values of room(c1,1), room(c1,2) etc etc
-        */
-        int roomC1 = first_occupant(rooms_array, c);
-        int roomC2 = second_occupant(rooms_array, c);
-        int roomD1 = first_occupant(rooms_array, d);
-        int roomD2 = second_occupant(rooms_array, d);
-        int costC1D2 = *offset(cost_matrix, roomC1, roomD2, num_persons);
-        int costD1C2 = *offset(cost_matrix, roomD1, roomC2, num_persons);
-        int costC1C2 = *offset(cost_matrix, roomC1, roomC2, num_persons);
-        int costD1D2 = *offset(cost_matrix, roomD1, roomD2, num_persons);
-
-        delta = costC1D2 + costD1C2 - costC1C2 - costD1D2;
-        TRACE("room (%d)=[%d, %d]  cost=%d", c, roomC1, roomC2, costC1C2);
-        TRACE("next (%d)=[%d, %d]  cost=%d", d, roomD1, roomD2, costD1D2);
-        TRACE("swapC(%d)=[%d, %d]  cost=%d", c, roomC1, roomD2, costC1D2);
-        TRACE("swapD(%d)=[%d, %d]  cost=%d", d, roomD1, roomC2, costD1C2);
-        TRACE("delta %d = %d + %d - %d - %d", delta, costC1D2, costD1C2, costC1C2, costD1D2);
-
-        // if the swap is an improvement ( delta < 0 ) or if the delta
-        // is small enough such that e^-(delta/T) > some random number between 0 and 1,
-        // then swap
-        float delta_on_T = (float)delta / T;
-        float exp_minus_delta_on_T = expf(-1.f * delta_on_T);
-        float threshold = random_float();
-        DEBUG("delta=%d   T=%f  delta/T=%f  exp=%f, threshold=%f,  cost=%d",
-              delta, T, delta_on_T, exp_minus_delta_on_T, threshold, cost);
-        if (delta < 0 || exp_minus_delta_on_T > threshold) {
-            //swap room(c1,1) and room(d1,1)
-            DEBUG("SWAP: Delta = %d: Swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
-            debug_matrix("Rooms before swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
-            swap_first_occupant(rooms_array, c, d);
-            debug_matrix("Rooms AFTER  swap", num_rooms, PERSONS_PER_ROOM, rooms_array);
-            cost = cost + delta;
-            i = 0; // restart the count
-
-            // uncomment to debug differences between calc and summed cost
-//            int calculated_cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
-//            if (calculated_cost != cost) {
-//                WARN("WARNING: Calculated cost = %d DIFFERENT from the cost=cost+delta = %d. Delta = %d", calculated_cost, cost, delta);
-//            }
-//            else {
-//                DEBUG("cost=cost+delta = %d. Calculated cost = %d same", cost, calculated_cost);
-//            }
-        } else {
-            i = i + 1; // count non-swap steps
-        }
-
-        T = 0.999 * T; // reduce the temperature (annealing)
-    }
-    metrics->steps = steps;
-    metrics->cost = cost;
+    T = config->initial_temperature;
+    annealing_rate = config->annealing_rate;
 }
+
+void start_iteration()
+{
+    // NOOP
+}
+
+void end_iteration()
+{
+    T = annealing_rate * T; // reduce the temperature (annealing)
+}
+
+/**
+ * Simulated Annealing:
+ * if the swap is an improvement ( delta < 0 ) or if the delta is small enough
+ * such that e^-(delta/T) > some random number between 0 and 1, then swap
+ */
+bool should_swap(int delta)
+{
+    // if the swap is an improvement ( delta < 0 ) or if the delta
+    // is small enough such that e^-(delta/T) > some random number between 0 and 1,
+    // then swap
+    float delta_on_T = (float) delta / T;
+    float exp_minus_delta_on_T = expf(-1.f * delta_on_T);
+    float threshold = random_float();
+    DEBUG("delta=%d   T=%f  delta/T=%f  exp=%f, threshold=%f",
+          delta, T, delta_on_T, exp_minus_delta_on_T, threshold);
+    return (delta < 0 || exp_minus_delta_on_T > threshold);
+}
+

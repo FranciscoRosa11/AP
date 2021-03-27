@@ -102,12 +102,15 @@ noop:
 										   $(SRC)rooms_noop_impl.c $(HEADERS) $(LIBS)
 
 rooms_sa:
-	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_sa $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c $(SRC)rooms_support.c \
-										   $(SRC)roomsSA.c $(HEADERS) $(LIBS)
+	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_sa $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
+										 $(SRC)rooms_support.c $(SRC)rooms_base_impl.c \
+										 $(SRC)roomsSA.c $(HEADERS) $(LIBS)
 
 rooms_mc:
-	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_mc $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c $(SRC)rooms_support.c \
-										   $(SRC)rooms.c $(HEADERS) $(LIBS)
+	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_sa $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
+										 $(SRC)rooms_support.c $(SRC)rooms_base_impl.c \
+										 $(SRC)roomsMC.c $(HEADERS) $(LIBS)
+
 #
 #montecarlo:
 #	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_montecarlo $(SRC)rooms_main.c \

@@ -13,7 +13,9 @@
 struct config {
     int num_persons;
     int num_processes;
-    float temp;
+    float initial_temperature;
+    float annealing_rate;
+    int stability_indicator;
     char *in_file;
     char *out_file;
     char *test_file;
@@ -27,7 +29,9 @@ struct metrics {
     double total_seconds;         // total time in seconds for the run
     int num_persons;
     int num_processes; // number of times the algorithm is run
-    float temp;
+    float initial_temperature;
+    float annealing_rate;
+    int stability_indicator;
     int num_rooms;
     int steps; // count of total steps used during a run
     int cost; // global cost at the end of a run

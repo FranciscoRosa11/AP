@@ -19,7 +19,9 @@ struct config *new_config()
     new_config->label = "no-label";
     new_config->num_persons = 10;
     new_config->num_processes = 1;
-    new_config->temp = 1.f;
+    new_config->initial_temperature = 1.f;
+    new_config->annealing_rate = 0.999f;
+    new_config->stability_indicator = 100;
     new_config->test = false;
     return new_config;
 }
@@ -34,7 +36,9 @@ struct metrics *new_metrics(struct config *config)
     new_metrics->num_processes = config->num_processes;
     new_metrics->num_persons = config->num_persons;
     new_metrics->num_processes = config->num_processes;
-    new_metrics->temp = config->temp;
+    new_metrics->initial_temperature = config->initial_temperature;
+    new_metrics->annealing_rate = config->annealing_rate;
+    new_metrics->stability_indicator = config->stability_indicator;
     new_metrics->total_seconds = 0;
     new_metrics->steps = 0;
     new_metrics->cost = 0;
@@ -59,8 +63,11 @@ void usage()
     fprintf(stderr, "Options include:\n");
     fprintf(stderr, "    -n --persons NUM number of people to divide among rooms\n");
     fprintf(stderr, "    -p --processes NUM number of iterations to perform\n");
-    fprintf(stderr, "    -t --temp TEMPERATURE FOR SA ALG\n");
+    fprintf(stderr, "    -t --temp TEMPERATURE initial T for SA algorithm (default: 1.0)\n");
+    fprintf(stderr, "    -a --annealing RATE rate per iteration of the temperature (default: 0.999)\n");
+    fprintf(stderr, "    -s --stability COUNT number of iterations without a swap before stopping (default: 100)\n");
     fprintf(stderr, "    -m METRICS.CSV append metrics to this CSV file (creates it if it does not exist)\n");
+    fprintf(stderr, "    -e --test run the algo with a test matrix of 4 people and 1 process with a known outcome (-n and -p ignored)\n");
     fprintf(stderr, "    --info for info level messages\n");
     fprintf(stderr, "    --verbose for extra detail messages\n");
     fprintf(stderr, "    --warn to suppress all but warning and error messages\n");
@@ -112,7 +119,7 @@ void validate_config(struct config *config)
         printf("Metrics file       : %-10s\n", config->metrics_file);
         printf("Num Persons (N)    : %-10d\n", config->num_persons);
         printf("Num Processes (P)  : %-10d\n", config->num_processes);
-        printf("Temperature (T)    : %-10f\n", config->temp);
+        printf("Temperature (T)    : %-10f\n", config->initial_temperature);
         printf("\n");
     }
 }
@@ -132,6 +139,8 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
             {"test", no_argument, NULL,                    'e'},
             {"help", no_argument, NULL,                    'h'},
             {"temp", required_argument, NULL,              't'},
+            {"annealing", required_argument, NULL,         'a'},
+            {"stability", required_argument, NULL,         's'},
             // log options
             {"error", no_argument, (int *)new_log_level,   error},
             {"warn", no_argument, (int *)new_log_level,    warn},
@@ -142,7 +151,7 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
             {NULL, 0, NULL,                                0}
     };
     int option_index = 0;
-    while((opt = getopt_long(argc, argv, "-p:n:l:m:he" , long_options, &option_index)) != -1)
+    while((opt = getopt_long(argc, argv, "-p:n:l:m:t:a:s:he" , long_options, &option_index)) != -1)
     {
 //        fprintf(stderr, "FOUND OPT: [%c]\n", opt);
         switch(opt) {
@@ -163,7 +172,14 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
                 new_config->num_persons = valid_count(optopt, optarg);
                 break;
             case 't':
-                new_config->temp = valid_float(optopt, optarg);
+                new_config->initial_temperature = valid_float(optopt, optarg);
+                break;
+            case 'a':
+                new_config->annealing_rate = valid_float(optopt, optarg);
+                break;
+            case 's':
+                new_config->stability_indicator = valid_count(optopt, optarg);
+                break;
             case 'm':
                 new_config->metrics_file = optarg;
                 break;

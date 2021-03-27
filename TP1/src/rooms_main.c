@@ -53,7 +53,7 @@ int main(int argc, char* argv [])
     int n = config->test ? 4 : config->num_persons;
     int num_processes = config->test ? 1 : config->num_processes;
 
-    float temp = config->temp;
+    float temp = config->initial_temperature;
     int num_rooms = n / PERSONS_PER_ROOM; // n guaranteed even by config.c validate_config
     struct metrics *metrics = new_metrics(config);
     metrics->num_rooms = num_rooms;
@@ -98,7 +98,8 @@ int main(int argc, char* argv [])
         start_main_timing(timing);
 
         // run the main implementation
-        run_rooms(cost_matrix, n, temp, rooms_array, num_rooms, metrics);
+        initialize_algorithm(config);
+        run_rooms(cost_matrix, n, rooms_array, num_rooms, metrics, config->stability_indicator);
 
         // stop the clock
         end_main_timing(timing);
