@@ -11,6 +11,7 @@
 struct config {
     int num_persons;
     int num_processes;
+    float temp;
     char *in_file;
     char *out_file;
     char *test_file;
@@ -23,6 +24,7 @@ struct metrics {
     double total_seconds;         // total time in seconds for the run
     int num_persons;
     int num_processes; // number of times the algorithm is run
+    float temp;
     int num_rooms;
     int steps; // count of total steps used during a run
     int cost; // global cost at the end of a run
@@ -46,5 +48,6 @@ extern void summarize_metrics(FILE *out, struct metrics *metrics);
 extern void write_metrics_file(char *metrics_file_name, struct metrics *metrics);
 extern char* valid_file(char opt, char *filename);
 extern int valid_count(char opt, char *arg);
+extern float valid_float(char opt, char *arg);
 
 #endif

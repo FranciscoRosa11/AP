@@ -19,6 +19,7 @@ struct config *new_config()
     new_config->label = "no-label";
     new_config->num_persons = 10;
     new_config->num_processes = 1;
+    new_config->temp = 1.f;
     return new_config;
 }
 
@@ -32,6 +33,7 @@ struct metrics *new_metrics(struct config *config)
     new_metrics->num_processes = config->num_processes;
     new_metrics->num_persons = config->num_persons;
     new_metrics->num_processes = config->num_processes;
+    new_metrics->temp = config->temp;
     new_metrics->total_seconds = 0;
     new_metrics->steps = 0;
     new_metrics->cost = 0;
@@ -56,6 +58,7 @@ void usage()
     fprintf(stderr, "Options include:\n");
     fprintf(stderr, "    -n --persons NUM number of people to divide among rooms\n");
     fprintf(stderr, "    -p --processes NUM number of iterations to perform\n");
+    fprintf(stderr, "    -t --temp TEMPERATURE FOR SA ALG\n");
     fprintf(stderr, "    -m METRICS.CSV append metrics to this CSV file (creates it if it does not exist)\n");
     fprintf(stderr, "    --info for info level messages\n");
     fprintf(stderr, "    --verbose for extra detail messages\n");
@@ -86,6 +89,16 @@ int valid_count(char opt, char *arg)
     return value;
 }
 
+float valid_float(char opt, char *arg)
+{
+    float value = atof(arg);
+    if (value <= 0.0f) {
+        fprintf(stderr, "Error: The option '%c' expects a counting number (got %s)\n", opt, arg);
+        usage();
+    }
+    return value;
+}
+
 void validate_config(struct config *config)
 {
     // ensure even persons
@@ -98,6 +111,7 @@ void validate_config(struct config *config)
         printf("Metrics file       : %-10s\n", config->metrics_file);
         printf("Num Persons (N)    : %-10d\n", config->num_persons);
         printf("Num Processes (P)  : %-10d\n", config->num_processes);
+        printf("Temperature (T)    : %-10f\n", config->temp);
         printf("\n");
     }
 }
@@ -114,6 +128,7 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
             {"persons", required_argument, NULL,           'n'},
             {"processes", required_argument, NULL,         'p'},
             {"help", required_argument, NULL,              'h'},
+            {"temp", required_argument, NULL,              't'},
             // log options
             {"error", no_argument, (int *)new_log_level,   error},
             {"warn", no_argument, (int *)new_log_level,    warn},
@@ -144,6 +159,8 @@ void parse_cli(int argc, char *argv[], struct config *new_config, enum log_level
             case 'n':
                 new_config->num_persons = valid_count(optopt, optarg);
                 break;
+            case 't':
+                new_config->temp = valid_float(optopt, optarg);
             case 'm':
                 new_config->metrics_file = optarg;
                 break;

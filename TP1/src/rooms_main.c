@@ -47,6 +47,7 @@ int main(int argc, char* argv [])
     config = new_config();
     parse_cli(argc, argv, config, &log_level);
     int n = config->num_persons;
+    float temp = config->temp;
     int num_rooms = n / 2; // n guaranteed even by config.c validate_config
     struct metrics *metrics = new_metrics(config);
     metrics->num_rooms = num_rooms;
@@ -78,7 +79,7 @@ int main(int argc, char* argv [])
         start_main_timing(timing);
 
         // run the main implementation
-        run_rooms(cost_matrix, n, rooms_array, num_rooms, metrics);
+        run_rooms(cost_matrix, n, temp, rooms_array, num_rooms, metrics);
 
         // stop the clock
         end_main_timing(timing);

@@ -4,9 +4,9 @@ current_dir=$( cd "$( dirname ${BASH_SOURCE[0]} )" && pwd )
 source ${current_dir}/set_env.sh
 
 prog=${ROOMS_PROG:-noop}
-processes=${ROOMS_PROCESSES:-3}
+processes=${ROOMS_PROCESSES:-1}
 debug_level=${ROOMS_DEBUG:-debug}
-persons=${ROOMS_PERSONS:-5}
+persons=${ROOMS_PERSONS:-4}
 label=${ROOMS_LABEL:-test}
 program=rooms_${prog}
 

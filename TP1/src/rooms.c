@@ -5,7 +5,7 @@
 #include "rooms_support.h"
 #include "math.h"
 
-void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_rooms, struct metrics *metrics)
+void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, int num_rooms, struct metrics *metrics)
 {
     int n = num_persons * num_persons; //equivalent of n = length(cost_matrix)
 
@@ -18,6 +18,7 @@ void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int num_room
     float T = 1.f;
 
     // loop until there are 100 iterations without a swap
+    #pragma omp parallel
     while(i < 100) {
         steps = steps + 1;
         int c = random_count(num_rooms) - 1; // index of random room
