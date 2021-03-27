@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "config.h"
 #include "rooms.h"
 #include "matrix_support.h"
 #include "rooms_support.h"
-#include "math.h"
+#include <math.h>
 
 void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, int num_rooms, struct metrics *metrics)
 {
@@ -18,8 +19,7 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
     float T = temp;
 
     // loop until there are 100 iterations without a swap
-    #pragma omp parallel default(none) private(i) shared(steps, num_rooms, rooms_array, cost_matrix, num_persons)
-    for(;i < 100;) {
+    while(i < 100) {
         steps = steps + 1;
 
         DEBUG("Starting step %d. Steps without swap: %d", steps, i);
@@ -58,9 +58,9 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
               delta, T, delta_on_T, exp_minus_delta_on_T, threshold, cost);
         if (delta < 0 || exp_minus_delta_on_T > threshold) {
             //swap room(c1,1) and room(d1,1)
-            int temp = rooms_array[roomC1];
+            int temporary = rooms_array[roomC1];
             rooms_array[roomC1] = rooms_array[roomD1];
-            rooms_array[roomD1] = temp;
+            rooms_array[roomD1] = temporary;
             cost = cost + delta;
             i = 0; // restart the count
             DEBUG("Delta = %d:  swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);

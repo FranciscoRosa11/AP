@@ -66,6 +66,7 @@ int main(int argc, char* argv [])
     int *rooms_array = new_matrix(num_rooms, 2);
 
     // main loop
+    #pragma omp parallel for
     for (int i = 0; i < config->num_processes; i++) {
         INFO("Randomizing room allocation of persons");
         randperm(num_rooms, 2, rooms_array);

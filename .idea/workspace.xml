@@ -5,9 +5,9 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
+      <config projectName="AP" targetName="noop" />
       <config projectName="AP" targetName="all" />
       <config projectName="AP" targetName="rooms_mc" />
-      <config projectName="AP" targetName="noop" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -17,13 +17,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16d2eaea-b6d6-4b30-9de8-49a291d3573a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/proj1_rooms.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/proj1_rooms.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/scripts/rooms_env.sh" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/scripts/rooms_env.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/scripts/run_one.sh" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/scripts/run_one.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/config.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/config.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP1/src/rooms.h" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/roomsSA.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/roomsSA.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TP1/src/rooms_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/TP1/src/rooms_main.c" afterDir="false" />
     </list>
@@ -76,6 +71,7 @@
   <component name="OCResolveContextSettings">
     <option name="configuration" value="$PROJECT_DIR$/TP1/src/rooms_main.c" />
   </component>
+  <component name="ProjectId" id="1qKnbhkWUAJJub8xDjF3saJQ9Sd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -89,7 +85,7 @@
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/TP1/src" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -98,11 +94,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Makefile Application.rooms_sa">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="all" CONFIG_NAME="all" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -118,14 +109,9 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="rooms_sa" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 10 --processes 1 --temp 1.1 --label test --debug" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_sa">
+    <configuration name="rooms_sa" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="--persons 4 --processes 1 --temp 1.1 --label test --debug" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$/TP1/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AP" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/TP1/bin/rooms_sa">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
@@ -145,6 +131,8 @@
       <option name="presentableId" value="Default" />
       <updated>1616697171896</updated>
       <workItem from="1616697175017" duration="14167000" />
+      <workItem from="1616837232483" duration="747000" />
+      <workItem from="1616838393873" duration="407000" />
     </task>
     <task id="LOCAL-00001" summary="Moved makefile and checked in CLION project">
       <created>1616697758102</created>
@@ -177,6 +165,9 @@
     <option name="localTasksCounter" value="5" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -187,6 +178,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Moved makefile and checked in CLION project" />
