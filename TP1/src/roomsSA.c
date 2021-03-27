@@ -42,11 +42,11 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
         int costD1D2 = *offset(cost_matrix, roomD1, roomD2, num_persons);
 
         delta = costC1D2 + costD1C2 - costC1C2 - costD1D2;
-        DEBUG("room (%d)=[%d, %d]  cost=%d", c, roomC1, roomC2, costC1C2);
-        DEBUG("next (%d)=[%d, %d]  cost=%d", d, roomD1, roomD2, costD1D2);
-        DEBUG("swapC(%d)=[%d, %d]  cost=%d", c, roomC1, roomD2, costC1D2);
-        DEBUG("swapD(%d)=[%d, %d]  cost=%d", d, roomD1, roomC2, costD1C2);
-        DEBUG("delta %d = %d + %d - %d - %d", delta, costC1D2, costD1C2, costC1C2, costD1D2);
+        TRACE("room (%d)=[%d, %d]  cost=%d", c, roomC1, roomC2, costC1C2);
+        TRACE("next (%d)=[%d, %d]  cost=%d", d, roomD1, roomD2, costD1D2);
+        TRACE("swapC(%d)=[%d, %d]  cost=%d", c, roomC1, roomD2, costC1D2);
+        TRACE("swapD(%d)=[%d, %d]  cost=%d", d, roomD1, roomC2, costD1C2);
+        TRACE("delta %d = %d + %d - %d - %d", delta, costC1D2, costD1C2, costC1C2, costD1D2);
 
         // if the swap is an improvement ( delta < 0 ) or if the delta
         // is small enough such that e^-(delta/T) > some random number between 0 and 1,
@@ -63,7 +63,14 @@ void run_rooms(int *cost_matrix, int num_persons, float temp, int *rooms_array, 
             rooms_array[roomD1] = temp_room;
             cost = cost + delta;
             i = 0; // restart the count
-            DEBUG("Delta = %d:  swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
+            DEBUG("SWAP: Delta = %d: Swapping person %d in room %d with neighbour %d from room %d", delta, roomC1, c, roomD1, d);
+            int calculated_cost = compatibility_cost(cost_matrix, num_persons, rooms_array, num_rooms);
+            if (calculated_cost != cost) {
+                WARN("WARNING: Calculated cost = %d DIFFERENT from the cost=cost+delta = %d. Delta = %d", calculated_cost, cost, delta);
+            }
+            else {
+                DEBUG("cost=cost+delta = %d. Calculated cost = %d same", cost, calculated_cost);
+            }
         } else {
             i = i + 1; // count non-swap steps
         }
