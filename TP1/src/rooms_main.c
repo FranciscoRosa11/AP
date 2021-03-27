@@ -68,7 +68,7 @@ int main(int argc, char* argv [])
         cost_matrix = new_matrix(n, n); // square
 
         INFO("Generating random data for cost matrix");
-        fill_matrix_random(n, n, cost_matrix, 1, 10);
+        fill_matrix_random(n, n, cost_matrix, 1, MAX_COST);
     }
 
     if (log_level >= info) {

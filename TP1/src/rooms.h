@@ -16,9 +16,3 @@ extern void run_rooms(int *cost_matrix, int num_persons, int *rooms_array, int n
                       int stability_indicator);
 
 extern void initialize_algorithm(struct config *config, struct metrics *metrics);
-
-extern void start_iteration();
-
-extern void end_iteration();
-
-extern bool should_swap(int delta);

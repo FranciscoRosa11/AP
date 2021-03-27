@@ -117,6 +117,26 @@ int compatibility_cost(int *cost_matrix, int num_persons, int *rooms_array, int 
     return cost;
 }
 
+int delta_cost_for_swap(int c, int d, int *cost_matrix, int num_persons, int *rooms_array, int num_rooms)
+{
+    int roomC1 = first_occupant(rooms_array, c);
+    int roomC2 = second_occupant(rooms_array, c);
+    int roomD1 = first_occupant(rooms_array, d);
+    int roomD2 = second_occupant(rooms_array, d);
+    int costC1D2 = *offset(cost_matrix, roomC1, roomD2, num_persons);
+    int costD1C2 = *offset(cost_matrix, roomD1, roomC2, num_persons);
+    int costC1C2 = *offset(cost_matrix, roomC1, roomC2, num_persons);
+    int costD1D2 = *offset(cost_matrix, roomD1, roomD2, num_persons);
+
+    int delta = costC1D2 + costD1C2 - costC1C2 - costD1D2;
+    TRACE("\ndelta calc: room c (%d)=[%d, %d]  cost=%d", c, roomC1, roomC2, costC1C2);
+    TRACE("delta calc: room d (%d)=[%d, %d]  cost=%d", d, roomD1, roomD2, costD1D2);
+    TRACE("delta calc: swapC(%d)=[%d, %d]  cost=%d", c, roomC1, roomD2, costC1D2);
+    TRACE("delta calc: swapD(%d)=[%d, %d]  cost=%d", d, roomD1, roomC2, costD1C2);
+    TRACE("delta calc: delta %d = %d + %d - %d - %d\n", delta, costC1D2, costD1C2, costC1C2, costD1D2);
+    return delta;
+}
+
 /**
  * Sets up a constant initial cost matrix for for testing.
  * The setup is such that everyone likes everyone else except for p1 and p2 who hate each other
@@ -136,7 +156,7 @@ int *setup_test_cost_matrix()
             if (i != j) {
                 cost = 1;
                 if (i == 0 && j == 1) {
-                    cost = 10;
+                    cost = MAX_COST;
                 }
             }
             *offset(matrix, i, j, cols) = cost;

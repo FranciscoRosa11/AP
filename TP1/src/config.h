@@ -9,6 +9,7 @@
 #include "log.h"
 
 #define PERSONS_PER_ROOM 2
+#define MAX_COST 10
 
 struct config {
     int num_persons;

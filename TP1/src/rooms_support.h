@@ -19,6 +19,7 @@
  * @return the sum of all of the compatibility scores over all rooms
  */
 extern int compatibility_cost(int* cost_matrix, int num_persons, int* rooms_array, int num_rooms);
+extern int delta_cost_for_swap(int c, int d, int *cost_matrix, int num_persons, int *rooms_array, int num_rooms);
 
 extern int next_room(int room_number, int num_rooms);
 

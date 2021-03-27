@@ -95,7 +95,7 @@ endif
 #
 
 .PHONY: all
-all: $(BIN) rooms_mc rooms_sa
+all: $(BIN) rooms_mc rooms_sa rooms_greedy
 
 noop:
 	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_noop $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c $(SRC)rooms_support.c \
@@ -103,13 +103,19 @@ noop:
 
 rooms_sa:
 	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_sa $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
-										 $(SRC)rooms_support.c $(SRC)rooms_base_impl.c \
+										 $(SRC)rooms_support.c $(SRC)rooms_random_base.c \
 										 $(SRC)roomsSA.c $(HEADERS) $(LIBS)
 
 rooms_mc:
 	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_mc $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
-										 $(SRC)rooms_support.c $(SRC)rooms_base_impl.c \
+										 $(SRC)rooms_support.c $(SRC)rooms_random_base.c \
 										 $(SRC)roomsMC.c $(HEADERS) $(LIBS)
+
+
+rooms_greedy:
+	$(CXX) $(CXXFLAGS) -o $(BIN)rooms_greedy $(SRC)rooms_main.c $(SRC)config.c $(SRC)matrix_support.c \
+										     $(SRC)rooms_support.c \
+										     $(SRC)roomsGreedy.c $(HEADERS) $(LIBS)
 
 #
 #montecarlo:
