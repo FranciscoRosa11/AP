@@ -1,5 +1,5 @@
-echo module load intel/2020
-module load intel/2020
+#echo module load intel/2020
+#module load intel/2020
 echo module load gcc/5.3.0
 module load gcc/5.3.0
 echo export LC_ALL=C
